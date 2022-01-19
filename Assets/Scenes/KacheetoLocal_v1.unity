@@ -292,6 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStatic: 0
   dadoID: 2
+  enMovimiento: 0
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1740425985}
@@ -1176,6 +1177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStatic: 0
   dadoID: 4
+  enMovimiento: 0
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1344904006}
@@ -1348,6 +1350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStatic: 0
   dadoID: 3
+  enMovimiento: 0
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1805112485}
@@ -1755,6 +1758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStatic: 0
   dadoID: 5
+  enMovimiento: 0
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1560643651}
@@ -1787,6 +1791,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &1628385322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628385315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b85b5ee47b797e4f83d15c234e759cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FloorLevel: 0
 --- !u!1 &1740425983
 GameObject:
   m_ObjectHideFlags: 0
@@ -2147,6 +2164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStatic: 0
   dadoID: 1
+  enMovimiento: 0
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 543798978}

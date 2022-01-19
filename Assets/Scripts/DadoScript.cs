@@ -55,10 +55,12 @@ public class DadoScript : MonoBehaviour
         {
             
             CheckNumber(); //ejecutar función CheckNumber
+            gameObject.tag = "drag"; // Los hace arrastrables
         }
         else{
             //Debug.Log("En Movimiento");
-            enMovimiento = true; 
+            enMovimiento = true;
+            gameObject.tag = "Untagged"; // Los hace no arrastrables
         }
     }
 
