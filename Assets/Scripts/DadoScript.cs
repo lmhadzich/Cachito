@@ -13,7 +13,7 @@ public class DadoScript : MonoBehaviour
     private int rotationX;
     private int rotationY;
     private int rotationZ;
-    private bool enMovimiento;
+    public bool enMovimiento;
     public Button RollButton;
     public GameObject DadosSet;
     public TextMeshProUGUI dadoValueText;
@@ -21,42 +21,44 @@ public class DadoScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dadoValueText.text = "?";
+        dadoValueText.text = "?"; 
         Debug.Log("DadoScript Started");
         DadoRB = gameObject.GetComponent<Rigidbody>();
+       
         //Random Start rotation
         transform.rotation = Random.rotation;
         enMovimiento = false;
 
+        //Boton de Roll
         Button RollBtn = RollButton.GetComponent<Button>();
         RollBtn.onClick.AddListener(reRollDado);
     }
 
-    void reRollDado()
+    void reRollDado() //Función al hacer click Botón de Roll
     {
 
-        dadoValueText.text = "?";
+        dadoValueText.text = "?"; //Cambia el texto
 
-        Vector3 parentTransform = DadosSet.transform.position;
+        Vector3 parentTransform = DadosSet.transform.position; // Captura posición de Dadoset y la guarda en una variable
         
         Debug.Log("You have clicked the button!");
-        transform.rotation = Random.rotation;
+        transform.rotation = Random.rotation; // Rota el dado randomly
 
-        float startPos = parentTransform.x - (dadoID*1.5f);
-        transform.position = new Vector3(startPos, 5, 0);
+        float startPos = parentTransform.x - (dadoID*1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
+        transform.position = new Vector3(startPos, 5, 0); // Setea la posición inicial del dado en X(por dado) y Y(compartida)
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (DadoRB.IsSleeping())
+        if (DadoRB.IsSleeping()) //Si el dado esta quieto (¿El IsSleeping lo detecta Unity?)
         {
             
-            CheckNumber();
+            CheckNumber(); //ejecutar función CheckNumber
         }
         else{
             //Debug.Log("En Movimiento");
-            enMovimiento = true;
+            enMovimiento = true; 
         }
     }
 
@@ -76,6 +78,7 @@ public class DadoScript : MonoBehaviour
 
             int DadoScore = 0;
 
+            // Verificar posición final de los dados y asignar puntaje
             if (XZ.x == 0 & XZ.y == 90)
             {
                 DadoScore = 4;
