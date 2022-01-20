@@ -26,18 +26,21 @@ public class Arrastrable : MonoBehaviour
                     selectedObject = hit.collider.gameObject;
                     Cursor.visible = false;
                 }
-            } else
-            {
-                Vector3 position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z);
-                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(position);
-                selectedObject.transform.position = new Vector3(worldPosition.x, FloorLevel, worldPosition.z);
-
-                selectedObject = null;
-                Cursor.visible = true;
-            }
+            } 
         }
 
-        if(selectedObject != null)
+        if (Input.GetMouseButtonUp(0))
+        {
+            Vector3 position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z);
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(position);
+            selectedObject.transform.position = new Vector3(worldPosition.x, FloorLevel, worldPosition.z);
+
+            selectedObject = null;
+            Cursor.visible = true;
+        }
+
+
+        if (selectedObject != null)
         {
             Vector3 position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z);
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(position);
