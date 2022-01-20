@@ -7,7 +7,6 @@ using TMPro;
 public class DadoScript : MonoBehaviour
 {
 
-    public bool isStatic;
     public int dadoID;
     private Rigidbody DadoRB;
     private int rotationX;
@@ -18,11 +17,21 @@ public class DadoScript : MonoBehaviour
     public GameObject DadosSet;
     public TextMeshProUGUI dadoValueText;
 
+    public TurnSystem turnSystem;
+
+    public Material baseMaterial;
+    public Material selectedMaterial;
+
+    public bool isSelected;
+
     // Start is called before the first frame update
     void Start()
     {
+        //Resetear seleccion
+        isSelected = false;
+        GetComponent<MeshRenderer>().material = baseMaterial; //Aplicar material Unselected
+
         dadoValueText.text = "?"; 
-        Debug.Log("DadoScript Started");
         DadoRB = gameObject.GetComponent<Rigidbody>();
        
         //Random Start rotation
@@ -31,21 +40,26 @@ public class DadoScript : MonoBehaviour
 
         //Boton de Roll
         Button RollBtn = RollButton.GetComponent<Button>();
-        RollBtn.onClick.AddListener(reRollDado);
+        RollBtn.onClick.AddListener(ReRollDado);
     }
 
-    void reRollDado() //Función al hacer click Botón de Roll
+    void ReRollDado() //Función al hacer click Botón de Roll
     {
+        isSelected = false;
+        turnSystem.sleepingDados = 0; //Regresamos el sleep a cero
+        turnSystem.UpdateTurnState(TurnState.ROLLING); //Updateamos el TurnSystem
+
 
         dadoValueText.text = "?"; //Cambia el texto
 
         Vector3 parentTransform = DadosSet.transform.position; // Captura posición de Dadoset y la guarda en una variable
         
-        Debug.Log("You have clicked the button!");
+        Debug.Log("Rollin!");
         transform.rotation = Random.rotation; // Rota el dado randomly
 
         float startPos = parentTransform.x - (dadoID*1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
         transform.position = new Vector3(startPos, 5, 0); // Setea la posición inicial del dado en X(por dado) y Y(compartida)
+     
     }
 
     // Update is called once per frame
@@ -53,28 +67,45 @@ public class DadoScript : MonoBehaviour
     {
         if (DadoRB.IsSleeping()) //Si el dado esta quieto (¿El IsSleeping lo detecta Unity?)
         {
-            
+                
             CheckNumber(); //ejecutar función CheckNumber
-            gameObject.tag = "drag"; // Los hace arrastrables
+            
+            if (turnSystem.globalTurnState == TurnState.THINKING) //Si estan quietos & en THINKING state
+            {
+                gameObject.tag = "drag"; // Los hace arrastrables
+            }
+
         }
         else{
-            //Debug.Log("En Movimiento");
             enMovimiento = true;
             gameObject.tag = "Untagged"; // Los hace no arrastrables
+        }
+
+        //Cambia de materiales dependiendo si esta Selected o no
+        if (!isSelected)
+        {
+            GetComponent<MeshRenderer>().material = baseMaterial;
+        }
+        else
+        {
+            GetComponent<MeshRenderer>().material = selectedMaterial;
         }
     }
 
     void CheckNumber()
     {
         if (enMovimiento == true){
+            //Lo declara sin movimiento
+            enMovimiento = false;
+            //Agrega este dado al count de dados estaticos
+            turnSystem.sleepingDados++;
+            //Revisa si ya todos los dados estan estaticos para pasar al TurnState THINKING
+            turnSystem.isThinking();
 
-            //Debug.Log(dadoID + " stopped");
             Vector2 XZ = new Vector2(0, 0);
             float X = Mathf.Round(transform.localEulerAngles.x);
             float Y = Mathf.Round(transform.localEulerAngles.y);
             float Z = Mathf.Round(transform.localEulerAngles.z);
-
-            //Debug.Log("X> " + X + " Y> " + Y + " Z> " + Z);
 
             XZ.Set(X, Z);
 

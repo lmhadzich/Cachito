@@ -31,11 +31,7 @@ public class Arrastrable : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            Vector3 position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z);
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(position);
-            selectedObject.transform.position = new Vector3(worldPosition.x, FloorLevel, worldPosition.z);
-
-            selectedObject = null;
+                        selectedObject = null;
             Cursor.visible = true;
         }
 
