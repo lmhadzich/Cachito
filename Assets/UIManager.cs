@@ -7,10 +7,16 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
 
+    //Referencias a Managers
+    public TurnManager turnMGR;
+    
     //Referencias a UI Texts
     public TextMeshProUGUI txtGameState;
     public TextMeshProUGUI txtMatchState;
+    public TextMeshProUGUI txtMatchTurn;
     public TextMeshProUGUI txtCurrentLeader;
+    public TextMeshProUGUI txtCurrentPlayer;
+    public TextMeshProUGUI txtNextPlayer;
 
     //Referencias a botones
     public GameObject btnStartGame;
@@ -27,6 +33,13 @@ public class UIManager : MonoBehaviour
     {
         GameManager.OnGameStateChanged -= GameManagerOnOnGameStateChanged; //Dejar de escuchar al game manager
         MatchManager.OnMatchStateChanged -= MatchManagerOnOnMatchStateChanged; //Dejar de escuchar al Match manager
+    }
+
+    public void UpdatePlayerTurns(int turn,string current, string next)
+    {
+        txtCurrentPlayer.text = current;
+        txtNextPlayer.text = next;
+        txtMatchTurn.text = turn.ToString();
     }
 
     private void GameManagerOnOnGameStateChanged(GameState state) //cuando cambia el state del GAME
@@ -95,7 +108,7 @@ public class UIManager : MonoBehaviour
                 break;
             case MatchState.Playing:
                 //Mostrar nombre + ID del leader
-                txtCurrentLeader.text = MatchManager.matchMGR.leaderName + " (" + MatchManager.matchMGR.leaderID + ")";
+                txtCurrentLeader.text = MatchManager.matchMGR.leaderName + " (ID" + MatchManager.matchMGR.leaderID + ", SEAT" + MatchManager.matchMGR.leaderSeat + ")";
                 break;
             case MatchState.Ended:
                 //Ya se sentaron los players

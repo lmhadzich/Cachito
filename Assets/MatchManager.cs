@@ -10,9 +10,11 @@ public class MatchManager : MonoBehaviour
     public int maxRolls; //Guarda el maxRolls determinado por el leader
     public int leaderID; //El index del jugador leader
     public string leaderName; //El nombre del jugador leader
+    public int leaderSeat; //El nombre del jugador leader
 
     public GameManager gameMGR; //Para referenciar en el inspector
     public static MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
+    public TurnManager turnMGR; //Permite agarrarlo de cualquier parte del game.
     public MatchState State; //Permite modificar el matchMGR.State
     public static event Action<MatchState> OnMatchStateChanged; //Crea la function para avisar a otros script que se cambio el matchMGR.State
 
@@ -52,9 +54,11 @@ public class MatchManager : MonoBehaviour
         matchType = MatchType.Callao; //Por ahora, forzamos callao
 
         leaderName = gameMGR.playerList[newLeaderID].name; //segun el ID, sacamos la data de la lista de players
-        Debug.Log("MatchLeader: " + leaderName +" ("+newLeaderID+")");
+        leaderSeat = gameMGR.playerList[newLeaderID].seat; //segun el ID, sacamos la data de la lista de players
         leaderID = newLeaderID; //establecemos el nuevo leaderID
         matchMGR.UpdateMatchState(MatchState.Playing); //Avisamos que ya estamos playing un Match
+
+        turnMGR.StartTurn(0);
     }
 }
 
