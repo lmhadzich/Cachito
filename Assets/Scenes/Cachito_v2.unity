@@ -2882,9 +2882,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
-  playerNumber: 0
-  startingLeader: 0
-  maxGamePoints: 0
+  playerNumber: 3
+  startingLeader: 1
+  maxGamePoints: 5
 --- !u!4 &1153415356
 Transform:
   m_ObjectHideFlags: 0
