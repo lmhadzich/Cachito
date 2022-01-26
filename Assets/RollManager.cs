@@ -17,10 +17,15 @@ public class RollManager : MonoBehaviour
 
     public int sleepingDados;
 
-    public void NewRoll()
+    public void LoadCachito()
     {
         turnMGR.currentRolls++;
         rollMGR.UpdateRollState(RollState.Loaded);
+    }
+
+    public void NewRoll()
+    {
+        rollMGR.UpdateRollState(RollState.PreRoll);
     }
 
 

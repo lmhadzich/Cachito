@@ -25,6 +25,10 @@ public class UIManager : MonoBehaviour
     public GameObject btnSeatPlayers;
     public GameObject btnRollLeader;
 
+    public GameObject btnLoad;
+    public GameObject btnRoll;
+    public GameObject btnEndSelection;
+
     void Awake()
     {
         Debug.Log("UIManagerStarted");
@@ -124,6 +128,37 @@ public class UIManager : MonoBehaviour
     {
         txtRollState.text = "Roll: " + state.ToString();//Actualizamos el UI text
         txtCurrentRoll.text = "ROLL: " +turnMGR.currentRolls.ToString();//Actualizamos el UI text
+
+
+        //Solo mostramos ciertos botones dependiendo del ROLL state
+        if (state != RollState.PreRoll)
+        {
+            btnLoad.SetActive(false);
+        }
+        else
+        {
+            btnLoad.SetActive(true);
+        }
+
+        if (state != RollState.Loaded)
+        {
+            btnRoll.SetActive(false);
+        }
+        else
+        {
+            btnRoll.SetActive(true);
+        }
+
+        if (state != RollState.Thinking)
+        {
+            btnEndSelection.SetActive(false);
+        }
+        else
+        {
+            btnEndSelection.SetActive(true);
+        }
+
+
 
         switch (state)//Que pasa en cada MATCH state
         {

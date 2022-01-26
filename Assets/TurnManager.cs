@@ -41,11 +41,12 @@ public class TurnManager : MonoBehaviour
     private void Awake()
     {
         numberOfPlayers = gameMGR.playerNumber;
-        Debug.Log(numberOfPlayers);
+
     }
 
     private void Start()
     {
+        Debug.Log(numberOfPlayers);
         currentRolls = 0;// Cada turno inicia en cero
     }
 
