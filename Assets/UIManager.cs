@@ -131,31 +131,27 @@ public class UIManager : MonoBehaviour
 
 
         //Solo mostramos ciertos botones dependiendo del ROLL state
-        if (state != RollState.PreRoll)
+        if (state != RollState.Thinking)
         {
-            btnLoad.SetActive(false);
         }
         else
         {
-            btnLoad.SetActive(true);
         }
 
         if (state != RollState.Loaded)
         {
-            btnRoll.SetActive(false);
+
         }
         else
         {
-            btnRoll.SetActive(true);
+
         }
 
         if (state != RollState.Thinking)
         {
-            btnEndSelection.SetActive(false);
         }
         else
         {
-            btnEndSelection.SetActive(true);
         }
 
 

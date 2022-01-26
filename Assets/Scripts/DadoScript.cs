@@ -13,6 +13,7 @@ public class DadoScript : MonoBehaviour
     private int rotationY;
     private int rotationZ;
     public bool enMovimiento;
+    public Button LoadButton;
     public Button RollButton;
     public GameObject DadosSet;
     public TextMeshProUGUI dadoValueText;
@@ -24,11 +25,13 @@ public class DadoScript : MonoBehaviour
     public Material selectedMaterial;
 
     public bool isSelected;
+    public bool isConfirmed;
 
     // Start is called before the first frame update
     void Start()
     {
         //Resetear seleccion
+        isConfirmed = false;
         isSelected = false;
         GetComponent<MeshRenderer>().material = baseMaterial; //Aplicar material Unselected
 
@@ -39,50 +42,83 @@ public class DadoScript : MonoBehaviour
         transform.rotation = Random.rotation;
         enMovimiento = false;
 
+        DadoRB.isKinematic = true;
+
+
+        //Boton de Load
+        Button LoadBtn = LoadButton.GetComponent<Button>();
+        LoadBtn.onClick.AddListener(LoadCachito);
+
         //Boton de Roll
         Button RollBtn = RollButton.GetComponent<Button>();
-        RollBtn.onClick.AddListener(ReRollDado);
+        RollBtn.onClick.AddListener(RollCachito);
     }
 
-    void ReRollDado() //Función al hacer click Botón de Roll
+    void RollCachito()
     {
-        isSelected = false;
-        rollMGR.sleepingDados = 0; //Regresamos el sleep a cero
-        rollMGR.UpdateRollState(RollState.Rolling); //Updateamos el TurnSystem
+        DadoRB.isKinematic = false;
+        rollMGR.UpdateRollState(RollState.Rolling);
+    }
 
-
-        dadoValueText.text = "?"; //Cambia el texto
-
-        Vector3 parentTransform = DadosSet.transform.position; // Captura posición de Dadoset y la guarda en una variable
+    void LoadCachito() //Función al hacer click Botón de LoadCachito
+    {
         
-        transform.rotation = Random.rotation; // Rota el dado randomly
+        if (isConfirmed != true) {    
+            if (isSelected == false)
+            {
+                rollMGR.UpdateRollState(RollState.Loaded); //Updateamos el TurnSystem
+                dadoValueText.text = "?"; //Cambia el texto
+                Vector3 parentTransform = DadosSet.transform.position; // Captura posición de Dadoset y la guarda en una variable
+                transform.rotation = Random.rotation; // Rota el dado randoml
+                float startPos = parentTransform.x - (dadoID * 1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
+                transform.position = new Vector3(startPos, 5, 0); // Setea la posición inicial del dado en X(por dado) y Y(compartida)
+                DadoRB.isKinematic = true;
+            }
+            else
+            {
+                isConfirmed = true;
+                rollMGR.confirmedDados++;
+            }
+        }
 
-        float startPos = parentTransform.x - (dadoID*1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
-        transform.position = new Vector3(startPos, 5, 0); // Setea la posición inicial del dado en X(por dado) y Y(compartida)
-     
+
+        rollMGR.sleepingDados = 0; //Regresamos el sleep a cero
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (DadoRB.IsSleeping()) //Si el dado esta quieto (¿El IsSleeping lo detecta Unity?)
-        {
-                
-            CheckNumber(); //ejecutar función CheckNumber
-            
-            if (rollMGR.State == RollState.Thinking) //Si estan quietos & en THINKING state
+
+        if (DadoRB.isKinematic==false) { //si se mueve
+            if (DadoRB.IsSleeping()) //Si el dado esta quieto (¿El IsSleeping lo detecta Unity?)
             {
-                gameObject.tag = "drag"; // Los hace arrastrables
+
+                CheckNumber(); //ejecutar función CheckNumber
+
+                if (rollMGR.State == RollState.Thinking && isConfirmed != true) //Si estan quietos & en THINKING state
+                {
+                    gameObject.tag = "drag"; // Los hace arrastrables
+                }
+                else
+                {
+                    gameObject.tag = "Untagged"; // Los hace no arrastrables
+                }
+
             }
             else
             {
-                gameObject.tag = "Untagged"; // Los hace no arrastrables
-            }
+                if (rollMGR.State == RollState.Thinking)
+                {
+                    enMovimiento = false;
+                }
+                else
+                {
+                    enMovimiento = true;
+                }
 
+            }
         }
-        else{
-            enMovimiento = true;
-        }
+        
 
         //Cambia de materiales dependiendo si esta Selected o no
         if (!isSelected)
@@ -102,8 +138,13 @@ public class DadoScript : MonoBehaviour
             enMovimiento = false;
             //Agrega este dado al count de dados estaticos
             rollMGR.sleepingDados++;
+
+            int fullDados = rollMGR.sleepingDados + rollMGR.confirmedDados;
             //Revisa si ya todos los dados estan estaticos para pasar al RollState THINKING
-            rollMGR.UpdateRollState(RollState.Thinking);
+            if (rollMGR.maxDados == fullDados)
+            {
+                rollMGR.UpdateRollState(RollState.Thinking);
+            }
 
             Vector2 XZ = new Vector2(0, 0);
             float X = Mathf.Round(transform.localEulerAngles.x);
@@ -155,6 +196,7 @@ public class DadoScript : MonoBehaviour
 
                 }
             }
+
 
             Debug.Log("Dado " + dadoID + " es " + DadoScore.ToString());
             dadoValueText.text = DadoScore.ToString();

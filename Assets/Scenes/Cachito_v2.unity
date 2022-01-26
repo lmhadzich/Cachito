@@ -292,6 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dadoID: 2
   enMovimiento: 0
+  LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1740425985}
@@ -300,6 +301,7 @@ MonoBehaviour:
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
+  isConfirmed: 0
 --- !u!65 &163296420
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2227,7 +2229,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: End Selection
+  m_text: End Turn
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2869,6 +2871,9 @@ MonoBehaviour:
   gameMGR: {fileID: 1153415355}
   turnMGR: {fileID: 1250790099}
   State: 0
+  setDados: {fileID: 839692705}
+  maxDados: 0
+  confirmedDados: 0
   sleepingDados: 0
 --- !u!1 &1153415354
 GameObject:
@@ -2954,7 +2959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 80, y: 30}
+  m_AnchoredPosition: {x: 79.7, y: -31.4}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1165053673
@@ -3003,7 +3008,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1100162129}
         m_TargetAssemblyTypeName: RollManager, Assembly-CSharp
-        m_MethodName: LoadCachito
+        m_MethodName: NextRoll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3747,6 +3752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dadoID: 4
   enMovimiento: 0
+  LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1344904006}
@@ -3755,6 +3761,7 @@ MonoBehaviour:
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
+  isConfirmed: 0
 --- !u!65 &1446544885
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3923,7 +3930,7 @@ GameObject:
   - component: {fileID: 1474696238}
   - component: {fileID: 1474696237}
   m_Layer: 5
-  m_Name: btnEndSelection
+  m_Name: btnEndTurn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3946,7 +3953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 80, y: -30}
+  m_AnchoredPosition: {x: 239.2, y: -31.5}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1474696237
@@ -4062,6 +4069,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dadoID: 3
   enMovimiento: 0
+  LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1805112485}
@@ -4070,6 +4078,7 @@ MonoBehaviour:
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
+  isConfirmed: 0
 --- !u!65 &1497050608
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4629,6 +4638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dadoID: 5
   enMovimiento: 0
+  LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1560643651}
@@ -4637,6 +4647,7 @@ MonoBehaviour:
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
+  isConfirmed: 0
 --- !u!65 &1628385317
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4662,7 +4673,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -5317,6 +5328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dadoID: 1
   enMovimiento: 0
+  LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 543798978}
@@ -5325,6 +5337,7 @@ MonoBehaviour:
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
+  isConfirmed: 0
 --- !u!54 &2059153028
 Rigidbody:
   m_ObjectHideFlags: 0

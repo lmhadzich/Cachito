@@ -15,12 +15,24 @@ public class RollManager : MonoBehaviour
     public RollState State; //Permite modificar el matchMGR.State
     public static event Action<RollState> OnRollStateChanged; //Crea la function para avisar a otros script que se cambio el rollMGR.State
 
+    public GameObject setDados;
+    public int maxDados;
+    public int confirmedDados;
     public int sleepingDados;
 
-    public void LoadCachito()
+    private void Start()
+    {
+        
+        maxDados  = setDados.transform.childCount;
+        sleepingDados = 0;
+        UpdateRollState(RollState.PreRoll);
+        
+    }
+    public void NextRoll()
     {
         turnMGR.currentRolls++;
         rollMGR.UpdateRollState(RollState.Loaded);
+
     }
 
     public void NewRoll()
@@ -58,10 +70,7 @@ public class RollManager : MonoBehaviour
         rollMGR = this; //Asignar este GameManager como referencia.
     }
 
-    private void Start()
-    {
-        UpdateRollState(RollState.PreRoll);
-    }
+
 }
 public enum RollState
 {
