@@ -295,7 +295,8 @@ MonoBehaviour:
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1740425985}
-  turnSystem: {fileID: 513862477}
+  rollMGR: {fileID: 1100162129}
+  turnMGR: {fileID: 1250790099}
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
@@ -1959,7 +1960,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Roll
+  m_text: Roll Dice
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2226,7 +2227,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: End Roll
+  m_text: End Selection
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2831,6 +2832,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1100162128}
+  - component: {fileID: 1100162129}
   m_Layer: 0
   m_Name: RollManager
   m_TagString: Untagged
@@ -2852,6 +2854,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1100162129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100162127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6979f6aa3bebdca45a4a969ca7f42494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameMGR: {fileID: 1153415355}
+  turnMGR: {fileID: 1250790099}
+  State: 0
+  sleepingDados: 0
 --- !u!1 &1153415354
 GameObject:
   m_ObjectHideFlags: 0
@@ -2882,9 +2900,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
-  playerNumber: 3
-  startingLeader: 1
-  maxGamePoints: 5
+  uiMGR: {fileID: 1405609134}
+  playerNumber: 0
+  startingLeader: 0
+  maxGamePoints: 0
 --- !u!4 &1153415356
 Transform:
   m_ObjectHideFlags: 0
@@ -2981,7 +3000,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1165053674}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1100162129}
+        m_TargetAssemblyTypeName: RollManager, Assembly-CSharp
+        m_MethodName: LoadCachito
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1165053674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3273,6 +3304,7 @@ MonoBehaviour:
   leaderSeat: 0
   gameMGR: {fileID: 1153415355}
   matchMGR: {fileID: 918537994}
+  rollMGR: {fileID: 1100162129}
   uiMGR: {fileID: 1405609134}
 --- !u!1 &1270089755
 GameObject:
@@ -3539,7 +3571,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1400670733
 MonoBehaviour:
@@ -3670,13 +3702,18 @@ MonoBehaviour:
   turnMGR: {fileID: 1250790099}
   txtGameState: {fileID: 918512116}
   txtMatchState: {fileID: 1400670733}
+  txtRollState: {fileID: 2097298928}
   txtMatchTurn: {fileID: 733879810}
+  txtCurrentRoll: {fileID: 459191826}
   txtCurrentLeader: {fileID: 1917062738}
   txtCurrentPlayer: {fileID: 515737667}
   txtNextPlayer: {fileID: 360143893}
   btnStartGame: {fileID: 891877407}
   btnSeatPlayers: {fileID: 1078819971}
   btnRollLeader: {fileID: 488346878}
+  btnLoad: {fileID: 1165053671}
+  btnRoll: {fileID: 1462414550}
+  btnEndSelection: {fileID: 1474696235}
 --- !u!4 &1405609135
 Transform:
   m_ObjectHideFlags: 0
@@ -3713,7 +3750,8 @@ MonoBehaviour:
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1344904006}
-  turnSystem: {fileID: 513862477}
+  rollMGR: {fileID: 1100162129}
+  turnMGR: {fileID: 1250790099}
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
@@ -3885,7 +3923,7 @@ GameObject:
   - component: {fileID: 1474696238}
   - component: {fileID: 1474696237}
   m_Layer: 5
-  m_Name: btnEndRoll
+  m_Name: btnEndSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3954,7 +3992,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1474696238}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1100162129}
+        m_TargetAssemblyTypeName: RollManager, Assembly-CSharp
+        m_MethodName: NewRoll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1474696238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4015,7 +4065,8 @@ MonoBehaviour:
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1805112485}
-  turnSystem: {fileID: 513862477}
+  rollMGR: {fileID: 1100162129}
+  turnMGR: {fileID: 1250790099}
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
@@ -4581,7 +4632,8 @@ MonoBehaviour:
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 1560643651}
-  turnSystem: {fileID: 513862477}
+  rollMGR: {fileID: 1100162129}
+  turnMGR: {fileID: 1250790099}
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0
@@ -5268,7 +5320,8 @@ MonoBehaviour:
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
   dadoValueText: {fileID: 543798978}
-  turnSystem: {fileID: 513862477}
+  rollMGR: {fileID: 1100162129}
+  turnMGR: {fileID: 1250790099}
   baseMaterial: {fileID: 2100000, guid: 4bb69fada5d171f43aa018750412cde1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: b2173a2e2e80de341aa9c9f3eaecf6de, type: 2}
   isSelected: 0

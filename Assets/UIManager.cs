@@ -13,7 +13,9 @@ public class UIManager : MonoBehaviour
     //Referencias a UI Texts
     public TextMeshProUGUI txtGameState;
     public TextMeshProUGUI txtMatchState;
+    public TextMeshProUGUI txtRollState;
     public TextMeshProUGUI txtMatchTurn;
+    public TextMeshProUGUI txtCurrentRoll;
     public TextMeshProUGUI txtCurrentLeader;
     public TextMeshProUGUI txtCurrentPlayer;
     public TextMeshProUGUI txtNextPlayer;
@@ -23,28 +25,35 @@ public class UIManager : MonoBehaviour
     public GameObject btnSeatPlayers;
     public GameObject btnRollLeader;
 
+    public GameObject btnLoad;
+    public GameObject btnRoll;
+    public GameObject btnEndSelection;
+
     void Awake()
     {
+        Debug.Log("UIManagerStarted");
         GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged; //Empezar a escuchar al game manager
         MatchManager.OnMatchStateChanged += MatchManagerOnOnMatchStateChanged; //Empezar a escuchar al Match manager
+        RollManager.OnRollStateChanged += RollManagerOnOnRollStateChanged;//Empezar a escuchar al Roll manager
     }
 
     private void OnDestroy()
     {
         GameManager.OnGameStateChanged -= GameManagerOnOnGameStateChanged; //Dejar de escuchar al game manager
         MatchManager.OnMatchStateChanged -= MatchManagerOnOnMatchStateChanged; //Dejar de escuchar al Match manager
+        RollManager.OnRollStateChanged -= RollManagerOnOnRollStateChanged;//Empezar a escuchar al Roll manager
     }
 
     public void UpdatePlayerTurns(int turn,string current, string next)
     {
         txtCurrentPlayer.text = current;
         txtNextPlayer.text = next;
-        txtMatchTurn.text = turn.ToString();
+        txtMatchTurn.text = "TURN: "+turn.ToString();
     }
 
     private void GameManagerOnOnGameStateChanged(GameState state) //cuando cambia el state del GAME
     {
-        txtGameState.text = state.ToString(); //Actualizamos el UI Text
+        txtGameState.text = "Game: " +state.ToString(); //Actualizamos el UI Text
 
         switch (state) //Acciones especificas segun el State del GAME
         {
@@ -95,7 +104,7 @@ public class UIManager : MonoBehaviour
 
     private void MatchManagerOnOnMatchStateChanged(MatchState state) //Cuando cambia el  state del MATCH
     {
-        txtMatchState.text = state.ToString() + " " + MatchManager.matchMGR.matchType; //Actualizamos el UI text
+        txtMatchState.text = "Match: " + state.ToString() + " " + MatchManager.matchMGR.matchType; //Actualizamos el UI text
 
         switch (state)//Que pasa en cada MATCH state
         {
@@ -115,5 +124,54 @@ public class UIManager : MonoBehaviour
                 break;
         }
     }
+    private void RollManagerOnOnRollStateChanged(RollState state) //Cuando cambia el  state del ROLL
+    {
+        txtRollState.text = "Roll: " + state.ToString();//Actualizamos el UI text
+        txtCurrentRoll.text = "ROLL: " +turnMGR.currentRolls.ToString();//Actualizamos el UI text
 
+
+        //Solo mostramos ciertos botones dependiendo del ROLL state
+        if (state != RollState.PreRoll)
+        {
+            btnLoad.SetActive(false);
+        }
+        else
+        {
+            btnLoad.SetActive(true);
+        }
+
+        if (state != RollState.Loaded)
+        {
+            btnRoll.SetActive(false);
+        }
+        else
+        {
+            btnRoll.SetActive(true);
+        }
+
+        if (state != RollState.Thinking)
+        {
+            btnEndSelection.SetActive(false);
+        }
+        else
+        {
+            btnEndSelection.SetActive(true);
+        }
+
+
+
+        switch (state)//Que pasa en cada MATCH state
+        {
+            case RollState.PreRoll:
+                break;
+            case RollState.Loaded:
+                break;
+            case RollState.Rolling:
+                break;
+            case RollState.Thinking:
+                break;
+            case RollState.Selected:
+                break;
+        }
+    }
 }

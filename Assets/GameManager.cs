@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameState State; //Permite modificar el gameMGR.State
     public static event Action<GameState> OnGameStateChanged; //Crea la function para avisar a otros script que se cambio el gameMGR.State
 
+    public UIManager uiMGR; //Permite agarrarlo de cualquier parte del game.
 
     //List of players
     public List<Player> playerList; //Lista para insertar a los jugadores
@@ -27,7 +28,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.StartMenu); //Avisamos que estamos en el StartMenu
-        
+        uiMGR.UpdatePlayerTurns(0, "NONE", "NONE");
+
         //Agregamos players con su data
         playerList = new List<Player>();
         playerList.Add(new Player(1,"Pietro", 1));
