@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
             case GameState.Playing:
                 //Se juegan los matches
                 break;
-            case GameState.MatchEnd:
+            case GameState.GameStatus:
                 //Updatear gamePoints, mostrar Scoreboard
                 break;
             case GameState.GameEnd:
@@ -96,6 +96,6 @@ public enum GameState
     PlayerSeating,
     LeaderRoll,
     Playing,
-    MatchEnd,
+    GameStatus,
     GameEnd
 }

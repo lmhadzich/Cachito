@@ -56,7 +56,7 @@ public class MatchManager : MonoBehaviour
         leaderName = gameMGR.playerList[newLeaderID].name; //segun el ID, sacamos la data de la lista de players
         leaderSeat = gameMGR.playerList[newLeaderID].seat; //segun el ID, sacamos la data de la lista de players
         leaderID = newLeaderID; //establecemos el nuevo leaderID
-        matchMGR.UpdateMatchState(MatchState.Playing); //Avisamos que ya estamos playing un Match
+        UpdateMatchState(MatchState.Playing); //Avisamos que ya estamos playing un Match
 
         turnMGR.StartTurn(0);
     }

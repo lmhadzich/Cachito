@@ -67,7 +67,7 @@ public class UIManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 break;
-            case GameState.MatchEnd:
+            case GameState.GameStatus:
                 break;
             case GameState.GameEnd:
                 break;
