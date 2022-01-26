@@ -3000,7 +3000,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1165053674}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1100162129}
+        m_TargetAssemblyTypeName: RollManager, Assembly-CSharp
+        m_MethodName: LoadCachito
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1165053674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3699,6 +3711,9 @@ MonoBehaviour:
   btnStartGame: {fileID: 891877407}
   btnSeatPlayers: {fileID: 1078819971}
   btnRollLeader: {fileID: 488346878}
+  btnLoad: {fileID: 1165053671}
+  btnRoll: {fileID: 1462414550}
+  btnEndSelection: {fileID: 1474696235}
 --- !u!4 &1405609135
 Transform:
   m_ObjectHideFlags: 0
@@ -3908,7 +3923,7 @@ GameObject:
   - component: {fileID: 1474696238}
   - component: {fileID: 1474696237}
   m_Layer: 5
-  m_Name: btnEndRoll
+  m_Name: btnEndSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
