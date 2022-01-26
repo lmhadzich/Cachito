@@ -18,6 +18,7 @@ public class TurnManager : MonoBehaviour
 
     public GameManager gameMGR; //Referencia al Game Manager
     public MatchManager matchMGR; //Referencia al Match Manager
+    public RollManager rollMGR; //Referencia al Match Manager
     public UIManager uiMGR; //Referencia al UI Manager
 
     public void GetCurrentPlayer(int turno)
@@ -34,7 +35,7 @@ public class TurnManager : MonoBehaviour
     {
         currentTurn = lastTurn + 1;
         GetCurrentPlayer(currentTurn);
-        //rollMGR.NewRoll();
+        rollMGR.NewRoll();
     }
 
     private void Awake()

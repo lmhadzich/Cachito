@@ -17,7 +17,8 @@ public class DadoScript : MonoBehaviour
     public GameObject DadosSet;
     public TextMeshProUGUI dadoValueText;
 
-    public TurnSystem turnSystem;
+    public RollManager rollMGR;
+    public TurnManager turnMGR;
 
     public Material baseMaterial;
     public Material selectedMaterial;
@@ -46,15 +47,14 @@ public class DadoScript : MonoBehaviour
     void ReRollDado() //Función al hacer click Botón de Roll
     {
         isSelected = false;
-        turnSystem.sleepingDados = 0; //Regresamos el sleep a cero
-        turnSystem.UpdateTurnState(TurnState.ROLLING); //Updateamos el TurnSystem
+        rollMGR.sleepingDados = 0; //Regresamos el sleep a cero
+        rollMGR.UpdateRollState(RollState.Rolling); //Updateamos el TurnSystem
 
 
         dadoValueText.text = "?"; //Cambia el texto
 
         Vector3 parentTransform = DadosSet.transform.position; // Captura posición de Dadoset y la guarda en una variable
         
-        Debug.Log("Rollin!");
         transform.rotation = Random.rotation; // Rota el dado randomly
 
         float startPos = parentTransform.x - (dadoID*1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
@@ -70,15 +70,18 @@ public class DadoScript : MonoBehaviour
                 
             CheckNumber(); //ejecutar función CheckNumber
             
-            if (turnSystem.globalTurnState == TurnState.THINKING) //Si estan quietos & en THINKING state
+            if (rollMGR.State == RollState.Thinking) //Si estan quietos & en THINKING state
             {
                 gameObject.tag = "drag"; // Los hace arrastrables
+            }
+            else
+            {
+                gameObject.tag = "Untagged"; // Los hace no arrastrables
             }
 
         }
         else{
             enMovimiento = true;
-            gameObject.tag = "Untagged"; // Los hace no arrastrables
         }
 
         //Cambia de materiales dependiendo si esta Selected o no
@@ -98,9 +101,9 @@ public class DadoScript : MonoBehaviour
             //Lo declara sin movimiento
             enMovimiento = false;
             //Agrega este dado al count de dados estaticos
-            turnSystem.sleepingDados++;
-            //Revisa si ya todos los dados estan estaticos para pasar al TurnState THINKING
-            turnSystem.isThinking();
+            rollMGR.sleepingDados++;
+            //Revisa si ya todos los dados estan estaticos para pasar al RollState THINKING
+            rollMGR.UpdateRollState(RollState.Thinking);
 
             Vector2 XZ = new Vector2(0, 0);
             float X = Mathf.Round(transform.localEulerAngles.x);
