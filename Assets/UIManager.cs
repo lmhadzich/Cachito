@@ -118,6 +118,7 @@ public class UIManager : MonoBehaviour
             case MatchState.Playing:
                 //Mostrar nombre + ID del leader
                 txtCurrentLeader.text = MatchManager.matchMGR.leaderName + " (ID" + MatchManager.matchMGR.leaderID + ", SEAT" + MatchManager.matchMGR.leaderSeat + ")";
+                txtMatchState.text = "Match: " + state.ToString() + " " + MatchManager.matchMGR.matchType;
                 break;
             case MatchState.Ended:
                 //Ya se sentaron los players

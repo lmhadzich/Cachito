@@ -19,6 +19,7 @@ public class RollManager : MonoBehaviour
     public int maxDados;
     public int confirmedDados;
     public int sleepingDados;
+    public float currentScore;
 
     private void Start()
     {
@@ -70,7 +71,10 @@ public class RollManager : MonoBehaviour
         rollMGR = this; //Asignar este GameManager como referencia.
     }
 
-
+    private void Update()
+    {
+        
+    }
 }
 public enum RollState
 {

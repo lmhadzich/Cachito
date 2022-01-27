@@ -20,6 +20,7 @@ public class DadoScript : MonoBehaviour
 
     public RollManager rollMGR;
     public TurnManager turnMGR;
+    public MatchManager matchMGR;
 
     public Material baseMaterial;
     public Material selectedMaterial;
@@ -153,45 +154,43 @@ public class DadoScript : MonoBehaviour
 
             XZ.Set(X, Z);
 
-            int DadoScore = 0;
+            float DadoScore = 0f;
 
             // Verificar posición final de los dados y asignar puntaje
             if (XZ.x == 0 & XZ.y == 90)
             {
-                DadoScore = 4;
+                DadoScore = 4f;
 
             }
             else if (XZ.x == 270 & XZ.y == 0)
             {
-                DadoScore = 6;
+                DadoScore = 6f;
                 {
 
                 }
             }
             else if (XZ.x == 0 & XZ.y == 0)
             {
-                DadoScore = 5;
+                DadoScore = 5f;
                 {
 
                 }
             }
             else if (XZ.x == 90 & XZ.y == 0)
             {
-                DadoScore = 1;
-                {
-
-                }
+                DadoScore = matchMGR.Number1;
+                
             }
             else if (XZ.x == 0 & XZ.y == 180)
             {
-                DadoScore = 2;
+                DadoScore = 2f;
                 {
 
                 }
             }
             else if (XZ.x == 0 & XZ.y == 270)
             {
-                DadoScore = 3;
+                DadoScore = 3f;
                 {
 
                 }
