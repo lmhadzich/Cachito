@@ -82,7 +82,7 @@ public void UpdateMatchType(MatchType newType)
     }
     public void StartMatch(int newLeaderID) //Iniciar un match segun el leaderID que se pase
     {
-        UpdateMatchType(MatchType.Callao);
+        UpdateMatchType(MatchType.OjosAzules);
 
         leaderName = gameMGR.playerList[newLeaderID].name; //segun el ID, sacamos la data de la lista de players
         leaderSeat = gameMGR.playerList[newLeaderID].seat; //segun el ID, sacamos la data de la lista de players

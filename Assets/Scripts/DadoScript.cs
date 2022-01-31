@@ -13,6 +13,9 @@ public class DadoScript : MonoBehaviour
     private int rotationY;
     private int rotationZ;
     public bool enMovimiento;
+    public string dadoNum = "TBD";
+
+    public int cachitoLoadHeight = 10;
     public Button LoadButton;
     public Button RollButton;
     public GameObject DadosSet;
@@ -32,6 +35,7 @@ public class DadoScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         //Resetear seleccion
         isConfirmed = false;
         isSelected = false;
@@ -62,6 +66,68 @@ public class DadoScript : MonoBehaviour
         rollMGR.UpdateRollState(RollState.Rolling);
     }
 
+    void FixDuda() //lo que queramos que pase cuando un dado no cae en ningun trigger
+    {
+        float actualX = DadoRB.position.x;
+        float actualY= DadoRB.position.y;
+        float actualZ= DadoRB.position.z;
+
+        //por ahora lo sube 5f y vuelve a caer
+        Vector3 newPos = new Vector3(actualX, 5f, actualZ);
+        enMovimiento = true;
+        DadoRB.MovePosition(newPos);
+        
+        Debug.Log("FIXING " + dadoID);
+        UpdateDadoScore();
+    }
+
+    public void UpdateDadoScore() 
+        //Funcion para updatear el score. El trigger de cada dado lo ejecuta OnTriggerEnter
+        //asi que se actualiza en tiempo real y solo cada vez que cambia de numero.
+    {
+        if (dadoNum == "CUATRO")
+        {
+            DadoScore = matchMGR.Number4;
+
+        }
+        else if (dadoNum == "SEIS")
+        {
+            DadoScore = matchMGR.Number6;
+            {
+
+            }
+        }
+        else if (dadoNum == "CINCO")
+        {
+            DadoScore = matchMGR.Number5;
+            {
+
+            }
+        }
+        else if (dadoNum == "UNO")
+        {
+            DadoScore = matchMGR.Number1;
+
+        }
+        else if (dadoNum == "DOS")
+        {
+            DadoScore = matchMGR.Number2;
+            {
+
+            }
+        }
+        else if (dadoNum == "TRES")
+        {
+            DadoScore = matchMGR.Number3;
+            {
+
+            }
+        }
+
+        dadoValueText.text = DadoScore.ToString();
+
+    }
+
     void LoadCachito() //Función al hacer click Botón de LoadCachito
     {
         
@@ -73,8 +139,8 @@ public class DadoScript : MonoBehaviour
                 dadoValueText.text = "?"; //Cambia el texto
                 Vector3 parentTransform = DadosSet.transform.position; // Captura posición de Dadoset y la guarda en una variable
                 transform.rotation = Random.rotation; // Rota el dado randoml
-                float startPos = parentTransform.x - (dadoID * 1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
-                transform.position = new Vector3(startPos, 5, 0); // Setea la posición inicial del dado en X(por dado) y Y(compartida)
+                float startPos = -5 + (dadoID * 1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
+                transform.position = new Vector3(startPos, cachitoLoadHeight, 0); // Setea la posición inicial del dado en X(por dado) y Y(compartida)
                 DadoRB.isKinematic = true;
             }
             else
@@ -98,7 +164,7 @@ public class DadoScript : MonoBehaviour
             if (DadoRB.IsSleeping()) //Si el dado esta quieto (¿El IsSleeping lo detecta Unity?)
             {
 
-                CheckNumber(); //ejecutar función CheckNumber
+                UpdateSleepers(); //ejecutar función CheckNumber
 
                 if (rollMGR.State == RollState.Thinking && isConfirmed != true) //Si estan quietos & en THINKING state
                 {
@@ -145,11 +211,21 @@ public class DadoScript : MonoBehaviour
         }
     }
 
-    void CheckNumber()
+    void UpdateSleepers()
     {
-        if (enMovimiento == true){
+        if (enMovimiento == true) {
+
             //Lo declara sin movimiento
             enMovimiento = false;
+            
+            if (dadoNum == "TBD") // si no cae en un trigger
+            {
+                FixDuda();
+            }
+
+            UpdateDadoScore();
+            enMovimiento = false;
+
             //Agrega este dado al count de dados estaticos
             rollMGR.sleepingDados++;
 
@@ -160,58 +236,6 @@ public class DadoScript : MonoBehaviour
                 rollMGR.UpdateRollState(RollState.Thinking);
             }
 
-            Vector2 XZ = new Vector2(0, 0);
-            float X = Mathf.Round(transform.localEulerAngles.x);
-            float Y = Mathf.Round(transform.localEulerAngles.y);
-            float Z = Mathf.Round(transform.localEulerAngles.z);
-
-            XZ.Set(X, Z);
-
-            // Verificar posición final de los dados y asignar puntaje
-            if (XZ.x == 0 & XZ.y == 90)
-            {
-                DadoScore = matchMGR.Number4;
-
-            }
-            else if (XZ.x == 270 & XZ.y == 0)
-            {
-                DadoScore = matchMGR.Number6;
-                {
-
-                }
-            }
-            else if (XZ.x == 0 & XZ.y == 0)
-            {
-                DadoScore = matchMGR.Number5;
-                {
-
-                }
-            }
-            else if (XZ.x == 90 & XZ.y == 0)
-            {
-                DadoScore = matchMGR.Number1;
-                
-            }
-            else if (XZ.x == 0 & XZ.y == 180)
-            {
-                DadoScore = matchMGR.Number2;
-                {
-
-                }
-            }
-            else if (XZ.x == 0 & XZ.y == 270)
-            {
-                DadoScore = matchMGR.Number3;
-                {
- 
-                }
-            }
-
-            
-            Debug.Log("Dado " + dadoID + " es " + DadoScore.ToString());
-            dadoValueText.text = DadoScore.ToString();
-            enMovimiento = false;
-            
         }
 
     }

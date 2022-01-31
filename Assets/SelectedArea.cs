@@ -18,15 +18,22 @@ public class SelectedArea : MonoBehaviour
     }
 
     //On trigger, set isSelected a true a ese dado.
-    private void OnTriggerEnter(Collider Dado)
+    private void OnTriggerEnter(Collider obj)
     {
-        Dado.GetComponent<DadoScript>().isSelected = true;
+        if (!obj.isTrigger)//entonces es el dado
+        {
+            obj.GetComponent<DadoScript>().isSelected = true;
+        }
+            
     }
 
     //On exit, set isSelected a FALSE a ese dado.
-    private void OnTriggerExit(Collider Dado)
+    private void OnTriggerExit(Collider obj)
     {
-        Dado.GetComponent<DadoScript>().isSelected = false;
+        if (!obj.isTrigger)//entonces es el dado
+        {
+            obj.GetComponent<DadoScript>().isSelected = false;
+        }
     }
 
 

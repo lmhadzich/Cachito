@@ -9,7 +9,7 @@ public class RollManager : MonoBehaviour
 
 
     public GameManager gameMGR; //Para referenciar en el inspector
-    public static MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
+    public MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
     public TurnManager turnMGR; //Permite agarrarlo de cualquier parte del game.
     public static RollManager rollMGR; //Permite agarrarlo de cualquier parte del game.
     public RollState State; //Permite modificar el matchMGR.State
@@ -78,10 +78,19 @@ public class RollManager : MonoBehaviour
 
     private void Update()
     {
-        
-        rollScore = confirmedDados + highestValue; //(si es Callao)
-        //rollScore = addedScore*-1; //(si es OjosAzules)
-        //rollScore = confirmedDados + addedScore; //(si es cualquier otro juego)
+        MatchType currentMatchType = matchMGR.matchType;
+        switch (currentMatchType)
+        {
+            case MatchType.Callao:
+                rollScore = confirmedDados + highestValue;
+                break;
+            case MatchType.OjosAzules:
+                rollScore = addedScore * -1;
+                break;
+            case MatchType.Undefined:
+                rollScore = confirmedDados + addedScore;
+                break;
+        }
     }
 }
 public enum RollState
