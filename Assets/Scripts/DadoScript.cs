@@ -16,6 +16,7 @@ public class DadoScript : MonoBehaviour
     public Button LoadButton;
     public Button RollButton;
     public GameObject DadosSet;
+    public float DadoScore = 0f;
     public TextMeshProUGUI dadoValueText;
 
     public RollManager rollMGR;
@@ -64,6 +65,7 @@ public class DadoScript : MonoBehaviour
     void LoadCachito() //Función al hacer click Botón de LoadCachito
     {
         
+        
         if (isConfirmed != true) {    
             if (isSelected == false)
             {
@@ -79,6 +81,8 @@ public class DadoScript : MonoBehaviour
             {
                 isConfirmed = true;
                 rollMGR.confirmedDados++;
+                rollMGR.addedScore = rollMGR.addedScore + DadoScore; //suma los valores de los dados
+                
             }
         }
 
@@ -129,6 +133,15 @@ public class DadoScript : MonoBehaviour
         else
         {
             GetComponent<MeshRenderer>().material = selectedMaterial;
+            
+
+        if (isConfirmed == true)
+            {
+             if (DadoScore>=rollMGR.highestValue)
+                {
+                    rollMGR.highestValue = DadoScore;
+                }
+            }    
         }
     }
 
@@ -154,24 +167,22 @@ public class DadoScript : MonoBehaviour
 
             XZ.Set(X, Z);
 
-            float DadoScore = 0f;
-
             // Verificar posición final de los dados y asignar puntaje
             if (XZ.x == 0 & XZ.y == 90)
             {
-                DadoScore = 4f;
+                DadoScore = matchMGR.Number4;
 
             }
             else if (XZ.x == 270 & XZ.y == 0)
             {
-                DadoScore = 6f;
+                DadoScore = matchMGR.Number6;
                 {
 
                 }
             }
             else if (XZ.x == 0 & XZ.y == 0)
             {
-                DadoScore = 5f;
+                DadoScore = matchMGR.Number5;
                 {
 
                 }
@@ -183,24 +194,26 @@ public class DadoScript : MonoBehaviour
             }
             else if (XZ.x == 0 & XZ.y == 180)
             {
-                DadoScore = 2f;
+                DadoScore = matchMGR.Number2;
                 {
 
                 }
             }
             else if (XZ.x == 0 & XZ.y == 270)
             {
-                DadoScore = 3f;
+                DadoScore = matchMGR.Number3;
                 {
-
+ 
                 }
             }
 
-
+            
             Debug.Log("Dado " + dadoID + " es " + DadoScore.ToString());
             dadoValueText.text = DadoScore.ToString();
             enMovimiento = false;
+            
         }
-        
+
     }
 }
+

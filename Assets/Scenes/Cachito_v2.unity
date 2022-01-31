@@ -295,6 +295,7 @@ MonoBehaviour:
   LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
+  DadoScore: 0
   dadoValueText: {fileID: 1740425985}
   rollMGR: {fileID: 1100162129}
   turnMGR: {fileID: 1250790099}
@@ -2491,6 +2492,7 @@ MonoBehaviour:
   leaderSeat: 0
   gameMGR: {fileID: 1153415355}
   turnMGR: {fileID: 1250790099}
+  rollMGR: {fileID: 0}
   State: 0
   Number1: 0.01
   Number2: 0.02
@@ -2882,7 +2884,9 @@ MonoBehaviour:
   maxDados: 0
   confirmedDados: 0
   sleepingDados: 0
-  currentScore: 0
+  addedScore: 0
+  rollScore: 0
+  highestValue: 0
 --- !u!1 &1153415354
 GameObject:
   m_ObjectHideFlags: 0
@@ -3315,6 +3319,7 @@ MonoBehaviour:
   currentPlayerID: 0
   currentPlayerSeat: 0
   leaderSeat: 0
+  turnScore: 0
   gameMGR: {fileID: 1153415355}
   matchMGR: {fileID: 918537994}
   rollMGR: {fileID: 1100162129}
@@ -3713,6 +3718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnMGR: {fileID: 1250790099}
+  rollMGR: {fileID: 1100162129}
   txtGameState: {fileID: 918512116}
   txtMatchState: {fileID: 1400670733}
   txtRollState: {fileID: 2097298928}
@@ -3721,6 +3727,8 @@ MonoBehaviour:
   txtCurrentLeader: {fileID: 1917062738}
   txtCurrentPlayer: {fileID: 515737667}
   txtNextPlayer: {fileID: 360143893}
+  txtRollScore: {fileID: 174616183}
+  txtTurnScore: {fileID: 357503100}
   btnStartGame: {fileID: 891877407}
   btnSeatPlayers: {fileID: 1078819971}
   btnRollLeader: {fileID: 488346878}
@@ -3763,6 +3771,7 @@ MonoBehaviour:
   LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
+  DadoScore: 0
   dadoValueText: {fileID: 1344904006}
   rollMGR: {fileID: 1100162129}
   turnMGR: {fileID: 1250790099}
@@ -4081,6 +4090,7 @@ MonoBehaviour:
   LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
+  DadoScore: 0
   dadoValueText: {fileID: 1805112485}
   rollMGR: {fileID: 1100162129}
   turnMGR: {fileID: 1250790099}
@@ -4651,6 +4661,7 @@ MonoBehaviour:
   LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
+  DadoScore: 0
   dadoValueText: {fileID: 1560643651}
   rollMGR: {fileID: 1100162129}
   turnMGR: {fileID: 1250790099}
@@ -5342,6 +5353,7 @@ MonoBehaviour:
   LoadButton: {fileID: 1165053673}
   RollButton: {fileID: 1462414552}
   DadosSet: {fileID: 839692705}
+  DadoScore: 0
   dadoValueText: {fileID: 543798978}
   rollMGR: {fileID: 1100162129}
   turnMGR: {fileID: 1250790099}

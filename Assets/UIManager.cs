@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 
     //Referencias a Managers
     public TurnManager turnMGR;
+    public RollManager rollMGR;
     
     //Referencias a UI Texts
     public TextMeshProUGUI txtGameState;
@@ -19,6 +20,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI txtCurrentLeader;
     public TextMeshProUGUI txtCurrentPlayer;
     public TextMeshProUGUI txtNextPlayer;
+    public TextMeshProUGUI txtRollScore;
+    public TextMeshProUGUI txtTurnScore;
 
     //Referencias a botones
     public GameObject btnStartGame;
@@ -36,7 +39,11 @@ public class UIManager : MonoBehaviour
         MatchManager.OnMatchStateChanged += MatchManagerOnOnMatchStateChanged; //Empezar a escuchar al Match manager
         RollManager.OnRollStateChanged += RollManagerOnOnRollStateChanged;//Empezar a escuchar al Roll manager
     }
-
+    void Update()
+    {
+       txtTurnScore.text = turnMGR.turnScore.ToString();
+       txtRollScore.text = rollMGR.rollScore.ToString();
+    }
     private void OnDestroy()
     {
         GameManager.OnGameStateChanged -= GameManagerOnOnGameStateChanged; //Dejar de escuchar al game manager

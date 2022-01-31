@@ -19,7 +19,9 @@ public class RollManager : MonoBehaviour
     public int maxDados;
     public int confirmedDados;
     public int sleepingDados;
-    public float currentScore;
+    public float addedScore;
+    public float rollScore;
+    public float highestValue;
 
     private void Start()
     {
@@ -29,6 +31,7 @@ public class RollManager : MonoBehaviour
         UpdateRollState(RollState.PreRoll);
         
     }
+
     public void NextRoll()
     {
         turnMGR.currentRolls++;
@@ -39,6 +42,8 @@ public class RollManager : MonoBehaviour
     public void NewRoll()
     {
         rollMGR.UpdateRollState(RollState.PreRoll);
+        turnMGR.turnScore = rollScore;
+        
     }
 
 
@@ -74,6 +79,9 @@ public class RollManager : MonoBehaviour
     private void Update()
     {
         
+        rollScore = confirmedDados + highestValue; //(si es Callao)
+        //rollScore = addedScore*-1; //(si es OjosAzules)
+        //rollScore = confirmedDados + addedScore; //(si es cualquier otro juego)
     }
 }
 public enum RollState

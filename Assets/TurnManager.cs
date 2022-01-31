@@ -15,6 +15,7 @@ public class TurnManager : MonoBehaviour
     public int currentPlayerID;
     public int currentPlayerSeat;
     public int leaderSeat;
+    public float turnScore;
 
     public GameManager gameMGR; //Referencia al Game Manager
     public MatchManager matchMGR; //Referencia al Match Manager
@@ -50,4 +51,8 @@ public class TurnManager : MonoBehaviour
         currentRolls = 0;// Cada turno inicia en cero
     }
 
+    private void Update()
+    {
+        
+    }
 }

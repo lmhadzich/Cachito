@@ -15,6 +15,7 @@ public class MatchManager : MonoBehaviour
     public GameManager gameMGR; //Para referenciar en el inspector
     public static MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
     public TurnManager turnMGR; //Permite agarrarlo de cualquier parte del game.
+    public RollManager rollMGR;
     public MatchState State; //Permite modificar el matchMGR.State
     public static event Action<MatchState> OnMatchStateChanged; //Crea la function para avisar a otros script que se cambio el matchMGR.State
 
@@ -38,7 +39,11 @@ public void UpdateMatchType(MatchType newType)
                 Number1 = 0.01f;
                 break;
             case MatchType.Burdel:
-                Number1 = 0.03f;
+                Number1 = 0.01f;
+                break;
+            case MatchType.OjosAzules:
+                Number2 = 0f;
+                Number5 = 0f;
                 break;
             
         }
@@ -77,7 +82,7 @@ public void UpdateMatchType(MatchType newType)
     }
     public void StartMatch(int newLeaderID) //Iniciar un match segun el leaderID que se pase
     {
-        UpdateMatchType(MatchType.Burdel);
+        UpdateMatchType(MatchType.Callao);
 
         leaderName = gameMGR.playerList[newLeaderID].name; //segun el ID, sacamos la data de la lista de players
         leaderSeat = gameMGR.playerList[newLeaderID].seat; //segun el ID, sacamos la data de la lista de players
@@ -99,5 +104,6 @@ public enum MatchType {
     Undefined,
     Callao, 
     Burdel, 
-    Tortuga
+    Tortuga,
+    OjosAzules
     }
