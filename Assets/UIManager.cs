@@ -103,11 +103,11 @@ public class UIManager : MonoBehaviour
 
         if (state != GameState.LeaderRoll)
         {
-            btnStartMatch.SetActive(false);
+            //btnStartMatch.SetActive(false);
         }
         else
         {
-            btnStartMatch.SetActive(true);
+            //btnStartMatch.SetActive(true);
         }
     }
 
