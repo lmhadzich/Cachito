@@ -6,11 +6,13 @@ using UnityEngine;
 public class MatchManager : MonoBehaviour
 {
 
+    //Manage the players
+    public int currentLeaderID; //El index del jugador leader
+    public int nextLeaderID; //El index del siguiente leader
+
+
     public MatchType matchType; //Activa al lista de juegos que esta abajo
     public int maxRolls; //Guarda el maxRolls determinado por el leader
-    public int leaderID; //El index del jugador leader
-    public string leaderName; //El nombre del jugador leader
-    public int leaderSeat; //El nombre del jugador leader
 
     public GameManager gameMGR; //Para referenciar en el inspector
     public static MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
@@ -52,7 +54,7 @@ public void UpdateMatchType(MatchType newType)
     private void Awake()
     {
         matchMGR = this;//Crear la instancia
-        leaderName = "NO LEADER";//Al inicio no hay leader
+        nextLeaderID = 0;//Al inicio no hay leader
     }
 
     public void UpdateMatchState(MatchState newState)
@@ -80,16 +82,14 @@ public void UpdateMatchType(MatchType newType)
         matchMGR.UpdateMatchState(MatchState.NotStarted);//Arrancar con el match state NOT STARTED
 
     }
-    public void StartMatch(int newLeaderID) //Iniciar un match segun el leaderID que se pase
+    public void StartMatch() //Iniciar un match
     {
-        UpdateMatchType(MatchType.OjosAzules);
-
-        leaderName = gameMGR.playerList[newLeaderID].name; //segun el ID, sacamos la data de la lista de players
-        leaderSeat = gameMGR.playerList[newLeaderID].seat; //segun el ID, sacamos la data de la lista de players
-        leaderID = newLeaderID; //establecemos el nuevo leaderID
+        UpdateMatchType(MatchType.Callao);
+        gameMGR.UpdateGameState(GameState.Playing); //Avisamos que ya estamos playing un Match
         UpdateMatchState(MatchState.Playing); //Avisamos que ya estamos playing un Match
+        Debug.Log("Match Started!");
 
-        turnMGR.StartTurn(0);
+        turnMGR.StartTurn(currentLeaderID);
     }
 }
 

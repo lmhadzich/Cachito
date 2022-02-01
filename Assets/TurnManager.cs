@@ -6,7 +6,8 @@ using UnityEngine;
 public class TurnManager : MonoBehaviour
 {
 
-    public int currentTurn;
+    public int currentTurnNumber;
+    public int currentTurnID;
     public int numberOfPlayers;
 
     public int currentRolls; //Keep track de la cantidad de rolls
@@ -22,33 +23,45 @@ public class TurnManager : MonoBehaviour
     public RollManager rollMGR; //Referencia al Match Manager
     public UIManager uiMGR; //Referencia al UI Manager
 
-    public void GetCurrentPlayer(int turno)
+    public int WhoCurrentTurnID(int id)
     {
-        int turnoIndex = turno - 1;
-        currentPlayerName = gameMGR.playerList[turnoIndex].name;
-        nextPlayerName= gameMGR.playerList[turnoIndex + 1].name;
+        return id;
+    }
 
-        uiMGR.UpdatePlayerTurns(turno,currentPlayerName,nextPlayerName);
+    public int WhoNextTurnID(int id)
+    {
+        int nextID = id+1;
+        if (nextID > gameMGR.maxPlayers-1) nextID = 0;//si es mas que la cantidad de players, es el 0
+        return nextID;
+    }
+
+
+    public void StartTurn(int turnID)
+    {
+        currentTurnID = turnID;
+        uiMGR.UpdatePlayerTurns(currentTurnNumber, WhoCurrentTurnID(turnID), WhoNextTurnID(turnID));
+        currentRolls = 0;// Cada turno inicia en cero
 
     }
 
-    public void StartTurn(int lastTurn)
+    public void NextTurn()
     {
-        currentTurn = lastTurn + 1;
-        GetCurrentPlayer(currentTurn);
-        rollMGR.NewRoll();
+        currentTurnID++;
+        currentTurnNumber++;
+
+        if (currentTurnID > gameMGR.maxPlayers - 1) currentTurnID = 0;//si es mas que la cantidad de players, es el 0
+
+        uiMGR.UpdatePlayerTurns(currentTurnNumber, WhoCurrentTurnID(currentTurnID), WhoNextTurnID(currentTurnID));
     }
 
     private void Awake()
     {
-        numberOfPlayers = gameMGR.playerNumber;
 
     }
 
     private void Start()
     {
-        Debug.Log(numberOfPlayers);
-        currentRolls = 0;// Cada turno inicia en cero
+
     }
 
     private void Update()

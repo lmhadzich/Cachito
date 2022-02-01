@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
 
     //Iniciamos el Game Manager
     public static GameManager gameMGR; //Permite agarrarlo de cualquier parte del game.
+    public MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
     public GameState State; //Permite modificar el gameMGR.State
     public static event Action<GameState> OnGameStateChanged; //Crea la function para avisar a otros script que se cambio el gameMGR.State
 
@@ -15,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     //List of players
     public List<Player> playerList; //Lista para insertar a los jugadores
-    public int playerNumber; //Cuantos van a jugar, lo determinamos por el count de playerList
+    public int maxPlayers; //Cuantos van a jugar, lo determinamos por el count de playerList
     public int startingLeader; //Para testeo, cambiar en INSPECTOR
 
     public int maxGamePoints; //A cuantos puntos vamos a jugar
@@ -28,22 +30,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.StartMenu); //Avisamos que estamos en el StartMenu
-        uiMGR.UpdatePlayerTurns(0, "NONE", "NONE");
 
         //Agregamos players con su data
         playerList = new List<Player>();
-        playerList.Add(new Player(1,"Pietro", 1));
-        playerList.Add(new Player(2, "Luismi", 2));
-        playerList.Add(new Player(3, "Ruks", 3));
 
-        //Actualizamos el playerNumber
-        playerNumber = playerList.Count;
 
-        //Debugeamos quien esta en que silla
-        foreach (Player plyr in playerList)
-        {
-            print(plyr.name + " esta en el seat " + plyr.seat);
-        }
     }
     public void UpdateGameState(GameState newState) //Funcion global para actualizar el Game State
     {
@@ -74,21 +65,40 @@ public class GameManager : MonoBehaviour
         Debug.Log("gameMGR State changed to: " + newState.ToString());
     }
 
-    public void StartGame()
+    public void SelectPlayers()
     {
         GameManager.gameMGR.UpdateGameState(GameState.PlayerSeating);
-    }
- 
-    public void SeatPlayers()
-    {
-        GameManager.gameMGR.UpdateGameState(GameState.LeaderRoll);
+        Debug.Log("Add Players Interface");
+
+        playerList.Add(new Player("JapiChop"));
+        playerList.Add(new Player("Pepino"));
+        playerList.Add(new Player("Ruks"));
+
+        
+
+        //Actualizamos el playerNumber
+        maxPlayers = playerList.Count;
+
+        int playerIndex = 0;
+        //Debugeamos quien esta en que silla
+        foreach (Player plyr in playerList)
+        {
+            print(plyr.name + " es " + playerIndex);
+            playerIndex++;
+        }
     }
 
-    public void RollLeader()
+    public void RollForLeader()
     {
-        GameManager.gameMGR.UpdateGameState(GameState.Playing);
-        MatchManager.matchMGR.StartMatch(startingLeader);
+        int newLeader;
+        GameManager.gameMGR.UpdateGameState(GameState.LeaderRoll);
+        Debug.Log("Roll For Leader Interface");
+        newLeader = Random.Range(0, maxPlayers); //por ahora Random
+        matchMGR.currentLeaderID = newLeader;
+        Debug.Log("El random leader es " + playerList[newLeader].name + " ID" + newLeader);
+        uiMGR.UpdateLeaderUI();
     }
+
 }
 public enum GameState
 {

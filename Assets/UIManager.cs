@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
 {
 
     //Referencias a Managers
+    public GameManager gameMGR;
+    public MatchManager matchMGR;
     public TurnManager turnMGR;
     public RollManager rollMGR;
     
@@ -24,9 +26,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI txtTurnScore;
 
     //Referencias a botones
-    public GameObject btnStartGame;
-    public GameObject btnSeatPlayers;
-    public GameObject btnRollLeader;
+    public GameObject btnSelectPlayers;
+    public GameObject btnRollForLeader;
+    public GameObject btnStartMatch;
 
     public GameObject btnLoad;
     public GameObject btnRoll;
@@ -51,11 +53,11 @@ public class UIManager : MonoBehaviour
         RollManager.OnRollStateChanged -= RollManagerOnOnRollStateChanged;//Empezar a escuchar al Roll manager
     }
 
-    public void UpdatePlayerTurns(int turn,string current, string next)
+    public void UpdatePlayerTurns(int turnNumber,int current, int next)
     {
-        txtCurrentPlayer.text = current;
-        txtNextPlayer.text = next;
-        txtMatchTurn.text = "TURN: "+turn.ToString();
+        txtCurrentPlayer.text = gameMGR.playerList[current].name +" ( " + current + ")";
+        txtNextPlayer.text = gameMGR.playerList[next].name + " ( " + next + ")";
+        txtMatchTurn.text = "TURN: "+turnNumber.ToString();
     }
 
     private void GameManagerOnOnGameStateChanged(GameState state) //cuando cambia el state del GAME
@@ -83,30 +85,36 @@ public class UIManager : MonoBehaviour
         //Solo mostramos ciertos botones dependiendo del GAME state
         if (state != GameState.StartMenu)
         {
-            btnStartGame.SetActive(false);
+            btnSelectPlayers.SetActive(false);
         }
         else
         {
-            btnStartGame.SetActive(true);
+            btnSelectPlayers.SetActive(true);
         }
 
         if (state != GameState.PlayerSeating)
         {
-            btnSeatPlayers.SetActive(false);
+            //btnRollForLeader.SetActive(false);
         }
         else
         {
-            btnSeatPlayers.SetActive(true);
+            //btnRollForLeader.SetActive(true);
         }
 
         if (state != GameState.LeaderRoll)
         {
-            btnRollLeader.SetActive(false);
+            btnStartMatch.SetActive(false);
         }
         else
         {
-            btnRollLeader.SetActive(true);
+            btnStartMatch.SetActive(true);
         }
+    }
+
+    public void UpdateLeaderUI()
+    {
+        int currentLeader = matchMGR.currentLeaderID;
+        txtCurrentLeader.text = gameMGR.playerList[currentLeader].name + " (ID " + currentLeader + ")";
     }
 
     private void MatchManagerOnOnMatchStateChanged(MatchState state) //Cuando cambia el  state del MATCH
@@ -117,14 +125,14 @@ public class UIManager : MonoBehaviour
         {
             case MatchState.NotStarted:
                 //No se ha iniciado un Match todavia
-                txtCurrentLeader.text = MatchManager.matchMGR.leaderName ; //deberia salir NO LEADER
+                txtCurrentLeader.text = "NO LEADER";
                 break;
             case MatchState.TypeSelection:
                 //Estamos seleccionando el tipo de juego
                 break;
             case MatchState.Playing:
                 //Mostrar nombre + ID del leader
-                txtCurrentLeader.text = MatchManager.matchMGR.leaderName + " (ID" + MatchManager.matchMGR.leaderID + ", SEAT" + MatchManager.matchMGR.leaderSeat + ")";
+                
                 txtMatchState.text = "Match: " + state.ToString() + " " + MatchManager.matchMGR.matchType;
                 break;
             case MatchState.Ended:

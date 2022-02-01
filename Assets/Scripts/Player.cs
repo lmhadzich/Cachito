@@ -8,19 +8,16 @@ using System; //This allows the IComparable Interface
 //implement the IComparable interface.
 public class Player : IComparable<Player>
 {
-    public int id; //no s'e si lo lleguemos a usar porque en realidad lo buscamos por su Index
+
     public string name; //Nombre del jugador
-    public int seat; //En que silla esta sentado
 
     public int gamePoints; //Puntos totales del Game
     public bool isLeader; //No se si esto viva aqui porque existe ya en el Match Manager
     public float matchScore; //Su score calculado actual
 
-    public Player(int newID, string newName, int newSeat) //La clase Player con sus variables
+    public Player(string newName) //La clase Player con sus variables
     {
-        id = newID;
         name = newName;
-        seat = newSeat;
     }
 
     //This method is required by the IComparable interface. 
@@ -32,6 +29,6 @@ public class Player : IComparable<Player>
         }
 
         //Return the difference in power.
-        return id - other.id;
+        return 0;
     }
 }
