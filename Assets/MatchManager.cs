@@ -16,6 +16,7 @@ public class MatchManager : MonoBehaviour
 
     public GameManager gameMGR; //Para referenciar en el inspector
     public static MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
+    public MatchScore matchSCR; //Permite agarrarlo de cualquier parte del game.
     public TurnManager turnMGR; //Permite agarrarlo de cualquier parte del game.
     public RollManager rollMGR;
     public MatchState State; //Permite modificar el matchMGR.State
@@ -90,6 +91,7 @@ public void UpdateMatchType(MatchType newType)
         Debug.Log("Match Started!");
 
         turnMGR.StartTurn(currentLeaderID);
+        matchSCR.PopulateMs("new");
     }
 }
 

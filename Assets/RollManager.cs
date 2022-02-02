@@ -10,8 +10,10 @@ public class RollManager : MonoBehaviour
 
     public GameManager gameMGR; //Para referenciar en el inspector
     public MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
+    public MatchScore matchSCR; //Permite agarrarlo de cualquier parte del game.
     public TurnManager turnMGR; //Permite agarrarlo de cualquier parte del game.
     public static RollManager rollMGR; //Permite agarrarlo de cualquier parte del game.
+
     public RollState State; //Permite modificar el matchMGR.State
     public static event Action<RollState> OnRollStateChanged; //Crea la function para avisar a otros script que se cambio el rollMGR.State
 
@@ -79,9 +81,10 @@ public class RollManager : MonoBehaviour
         rollMGR = this; //Asignar este GameManager como referencia.
     }
 
-    private void Update()
+    public void UpdateScore(float dadoScore)
     {
         MatchType currentMatchType = matchMGR.matchType;
+        addedScore = addedScore + dadoScore; //suma los valores de los dados
         switch (currentMatchType)
         {
             case MatchType.Callao:
@@ -94,6 +97,15 @@ public class RollManager : MonoBehaviour
                 rollScore = confirmedDados + addedScore;
                 break;
         }
+        gameMGR.playerList[turnMGR.currentTurnID].matchScore = rollScore;
+        Debug.Log(gameMGR.playerList[turnMGR.currentTurnID].matchScore);
+        matchSCR.PopulateMs("update");
+        
+    }
+
+    private void Update()
+    {
+
     }
 }
 public enum RollState

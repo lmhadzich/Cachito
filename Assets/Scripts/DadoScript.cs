@@ -25,6 +25,8 @@ public class DadoScript : MonoBehaviour
     public RollManager rollMGR;
     public TurnManager turnMGR;
     public MatchManager matchMGR;
+    public MatchScore matchSCR;
+    public GameManager gameMGR;
 
     public Material baseMaterial;
     public Material selectedMaterial;
@@ -135,7 +137,6 @@ public class DadoScript : MonoBehaviour
     void LoadCachito() //Función al hacer click Botón de LoadCachito
     {
         
-        
         if (isConfirmed != true) {    
             if (isSelected == false)
             {
@@ -149,15 +150,27 @@ public class DadoScript : MonoBehaviour
             }
             else
             {
-                isConfirmed = true;
-                rollMGR.confirmedDados++;
-                rollMGR.addedScore = rollMGR.addedScore + DadoScore; //suma los valores de los dados
-                
+                ConfirmarDado();
+
             }
         }
 
-
         rollMGR.sleepingDados = 0; //Regresamos el sleep a cero
+    }
+
+    public void ConfirmarDado()
+    {
+        if (isConfirmed != true)
+        {
+            if (isSelected == true)
+            {
+                isConfirmed = true;
+                rollMGR.confirmedDados++;
+
+            }
+        }
+
+        rollMGR.UpdateScore(DadoScore);
     }
 
     // Update is called once per frame
@@ -209,7 +222,7 @@ public class DadoScript : MonoBehaviour
             GetComponent<MeshRenderer>().material = baseMaterial;
         }
         
-        if (isConfirmed == true)
+        if (isSelected == true)
             {
              if (DadoScore>=rollMGR.highestValue)
                 {

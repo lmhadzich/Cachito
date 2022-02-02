@@ -37,6 +37,8 @@ public class TurnManager : MonoBehaviour
     public RollManager rollMGR; //Referencia al Match Manager
     public UIManager uiMGR; //Referencia al UI Manager
 
+    public MatchScore matchSCR; //Referencia al Match Score
+
 
     public Transform dadosSet;
 
@@ -71,6 +73,9 @@ public class TurnManager : MonoBehaviour
         currentRolls = 0;
         rollMGR.UpdateRollState(RollState.PreRoll);
         rollMGR.confirmedDados = 0;
+        rollMGR.rollScore = 0;
+        rollMGR.addedScore = 0;
+        rollMGR.highestValue = 0;
         //Release los dados para poder Load
 
         foreach (Transform dado in dadosSet)
@@ -79,6 +84,7 @@ public class TurnManager : MonoBehaviour
             dado.GetComponent<DadoScript>().isSelected = false;
         }
 
+        matchSCR.PopulateMs("update");
 
         if (currentTurnID > gameMGR.maxPlayers - 1) currentTurnID = 0;//si es mas que la cantidad de players, es el 0
 
@@ -89,6 +95,8 @@ public class TurnManager : MonoBehaviour
     {
         rollMGR.UpdateRollState(RollState.PreRoll);
         turnScore = rollMGR.rollScore;
+        gameMGR.playerList[currentTurnID].matchScore = turnScore;
+        matchSCR.PopulateMs("update");
     }
 
     private void Awake()

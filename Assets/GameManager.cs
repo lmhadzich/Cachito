@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     //Iniciamos el Game Manager
     public static GameManager gameMGR; //Permite agarrarlo de cualquier parte del game.
     public MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
+    public MatchScore matchSCR; //Permite agarrarlo de cualquier parte del game.
     public GameState State; //Permite modificar el gameMGR.State
     public static event Action<GameState> OnGameStateChanged; //Crea la function para avisar a otros script que se cambio el gameMGR.State
 
@@ -70,11 +71,9 @@ public class GameManager : MonoBehaviour
         GameManager.gameMGR.UpdateGameState(GameState.PlayerSeating);
         Debug.Log("Add Players Interface");
 
-        playerList.Add(new Player("JapiChop"));
-        playerList.Add(new Player("Pepino"));
-        playerList.Add(new Player("Ruks"));
-
-        
+        playerList.Add(new Player("JapiChop", 0));
+        playerList.Add(new Player("Pepino", 0));
+        playerList.Add(new Player("Ruks", 0));
 
         //Actualizamos el playerNumber
         maxPlayers = playerList.Count;
@@ -86,6 +85,8 @@ public class GameManager : MonoBehaviour
             print(plyr.name + " es " + playerIndex);
             playerIndex++;
         }
+
+
     }
 
     public void RollForLeader()
