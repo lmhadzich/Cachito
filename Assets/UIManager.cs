@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI txtRollState;
     public TextMeshProUGUI txtMatchTurn;
     public TextMeshProUGUI txtCurrentRoll;
+    public TextMeshProUGUI txtMaxRolls;
     public TextMeshProUGUI txtCurrentLeader;
     public TextMeshProUGUI txtCurrentPlayer;
     public TextMeshProUGUI txtNextPlayer;
@@ -144,7 +145,7 @@ public class UIManager : MonoBehaviour
     {
         txtRollState.text = "Roll: " + state.ToString();//Actualizamos el UI text
         txtCurrentRoll.text = "ROLL: " +turnMGR.currentRolls.ToString();//Actualizamos el UI text
-
+        txtMaxRolls.text = "MAXROLLS: " + turnMGR.maxRolls.ToString();//Actualizamos el UI text
 
         //Solo mostramos ciertos botones dependiendo del ROLL state
         if (state != RollState.Thinking)

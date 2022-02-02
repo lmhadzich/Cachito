@@ -35,14 +35,17 @@ public class RollManager : MonoBehaviour
     public void NextRoll()
     {
         turnMGR.currentRolls++;
+        if (turnMGR.currentTurnID == matchMGR.currentLeaderID)//Si el que juega es el leader, modifica el maxRolls
+        {
+            turnMGR.maxRolls = turnMGR.currentRolls;
+        }
         rollMGR.UpdateRollState(RollState.Loaded);
 
     }
 
     public void NewRoll()
     {
-        rollMGR.UpdateRollState(RollState.PreRoll);
-        turnMGR.turnScore = rollScore;
+
         
     }
 

@@ -11,17 +11,34 @@ public class TurnManager : MonoBehaviour
     public int numberOfPlayers;
 
     public int currentRolls; //Keep track de la cantidad de rolls
+    public int maxRolls;
     public string currentPlayerName;
     public string nextPlayerName;
     public int currentPlayerID;
-    public int currentPlayerSeat;
-    public int leaderSeat;
     public float turnScore;
+
+    //MatchType specific variables
+    //CALLAO
+    public float callao01 = 0;
+    public float callao01Count = 0;
+    public float callao02 = 0;
+    public float callao02Count = 0;
+
+    //BURDEL
+    public float burdelStage = 0;
+
+    //Tortuga
+    public float tortugaStage = 0;
+
+    //Managers
 
     public GameManager gameMGR; //Referencia al Game Manager
     public MatchManager matchMGR; //Referencia al Match Manager
     public RollManager rollMGR; //Referencia al Match Manager
     public UIManager uiMGR; //Referencia al UI Manager
+
+
+    public Transform dadosSet;
 
     public int WhoCurrentTurnID(int id)
     {
@@ -39,8 +56,11 @@ public class TurnManager : MonoBehaviour
     public void StartTurn(int turnID)
     {
         currentTurnID = turnID;
+        currentTurnNumber = 1;
+        maxRolls = 0;
         uiMGR.UpdatePlayerTurns(currentTurnNumber, WhoCurrentTurnID(turnID), WhoNextTurnID(turnID));
         currentRolls = 0;// Cada turno inicia en cero
+
 
     }
 
@@ -48,10 +68,27 @@ public class TurnManager : MonoBehaviour
     {
         currentTurnID++;
         currentTurnNumber++;
+        currentRolls = 0;
+        rollMGR.UpdateRollState(RollState.PreRoll);
+        rollMGR.confirmedDados = 0;
+        //Release los dados para poder Load
+
+        foreach (Transform dado in dadosSet)
+        {
+            dado.GetComponent<DadoScript>().isConfirmed = false;
+            dado.GetComponent<DadoScript>().isSelected = false;
+        }
+
 
         if (currentTurnID > gameMGR.maxPlayers - 1) currentTurnID = 0;//si es mas que la cantidad de players, es el 0
 
         uiMGR.UpdatePlayerTurns(currentTurnNumber, WhoCurrentTurnID(currentTurnID), WhoNextTurnID(currentTurnID));
+    }
+
+    public void EndTurn()
+    {
+        rollMGR.UpdateRollState(RollState.PreRoll);
+        turnScore = rollMGR.rollScore;
     }
 
     private void Awake()

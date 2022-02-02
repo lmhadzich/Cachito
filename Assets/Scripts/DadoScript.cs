@@ -28,9 +28,13 @@ public class DadoScript : MonoBehaviour
 
     public Material baseMaterial;
     public Material selectedMaterial;
+    public Material wrongMaterial;
 
     public bool isSelected;
     public bool isConfirmed;
+    public bool isWrong;
+
+    public string DadoValidVariable;
 
     // Start is called before the first frame update
     void Start()
@@ -189,18 +193,22 @@ public class DadoScript : MonoBehaviour
 
             }
         }
-        
+
 
         //Cambia de materiales dependiendo si esta Selected o no
-        if (!isSelected)
+        if (isSelected)
         {
-            GetComponent<MeshRenderer>().material = baseMaterial;
+            GetComponent<MeshRenderer>().material = selectedMaterial;
+        }
+        else if (isWrong)
+        {
+            GetComponent<MeshRenderer>().material = wrongMaterial;
         }
         else
         {
-            GetComponent<MeshRenderer>().material = selectedMaterial;
-            
-
+            GetComponent<MeshRenderer>().material = baseMaterial;
+        }
+        
         if (isConfirmed == true)
             {
              if (DadoScore>=rollMGR.highestValue)
@@ -208,8 +216,7 @@ public class DadoScript : MonoBehaviour
                     rollMGR.highestValue = DadoScore;
                 }
             }    
-        }
-    }
+}
 
     void UpdateSleepers()
     {
