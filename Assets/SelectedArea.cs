@@ -12,6 +12,7 @@ public class SelectedArea : MonoBehaviour
 
     public MatchManager matchMGR;
     public TurnManager turnMGR;
+    public RollManager rollMGR;
     public UIManager uiMGR;
 
     // Start is called before the first frame update
@@ -35,7 +36,7 @@ public class SelectedArea : MonoBehaviour
         {
             case MatchType.Callao:
 
-                if (turnMGR.callao01 == 0)//si no se ha definido el valor 01
+                if (turnMGR.callao01 == 0 & turnMGR.callao02 != dadoScore)//si no se ha definido el valor 01
                 {
                     turnMGR.callao01Count++; //aumentamos en 1 la cantidad de dados con el valor de callao01
                     turnMGR.callao01 = dadoScore;//ocupamos el valor de callao01 con este dado
@@ -48,25 +49,26 @@ public class SelectedArea : MonoBehaviour
                     {
                         turnMGR.callao02Count++;//aumentamos en 1 la cantidad de dados con el valor de callao02
                         turnMGR.callao02 = dadoScore;//ocupamos el valor de callao02 con este dado
-                        dado.GetComponent<DadoScript>().isSelected = true;//permitimos seleccionar el dado
+                        //dado.GetComponent<DadoScript>().isSelected = true;//permitimos seleccionar el dado
                         dado.GetComponent<DadoScript>().DadoValidVariable = "callao02";//identificamos que este dado es el que esta determinando el valor 01
                     }
                     else//si ya esta el 01 y el 02
                     {
                         if(dadoScore == turnMGR.callao01)// si su score coincide con callao01
                         {
-                            dado.GetComponent<DadoScript>().isSelected = true;// estado selected
+                            //dado.GetComponent<DadoScript>().isSelected = true;// estado selected
                             dado.GetComponent<DadoScript>().DadoValidVariable = "callao01";//identificamos que este dado es el que esta determinando el valor 01
                             turnMGR.callao01Count++;//aumentamos en 1 la cantidad de dados con el valor de callao01
                         }
                         else if (dadoScore == turnMGR.callao02)
                         {
-                            dado.GetComponent<DadoScript>().isSelected = true;// estado selected
+                           //dado.GetComponent<DadoScript>().isSelected = true;// estado selected
                             dado.GetComponent<DadoScript>().DadoValidVariable = "callao02";
                             turnMGR.callao02Count++;//aumentamos en 1 la cantidad de dados con el valor de callao02
                         }
                         else//si no coincide
                         {
+                            dado.GetComponent<DadoScript>().isSelected = false;// estado selected
                             dado.GetComponent<DadoScript>().isWrong = true;// estado wrong
                         }
                     }
@@ -87,11 +89,19 @@ public class SelectedArea : MonoBehaviour
     }
 
     //On trigger, set isSelected a true a ese dado.
-    private void OnTriggerEnter(Collider obj)
+    private void OnTriggerEnter(Collider dado)
     {
-        if (!obj.isTrigger)//entonces es el dado
+        if (!dado.isTrigger)//entonces es el dado
         {
-            CheckDadoValid(obj);
+            
+            dado.GetComponent<DadoScript>().isSelected = true;// estado selected
+            CheckDadoValid(dado);
+            if (dado.GetComponent<DadoScript>().isSelected == true)
+            {
+                rollMGR.selectedDados++;
+            }
+            
+  
         }
             
     }
@@ -132,11 +142,15 @@ public class SelectedArea : MonoBehaviour
         }
     }
                     
-        private void OnTriggerExit(Collider obj)
+        private void OnTriggerExit(Collider dado)
     {
-        if (!obj.isTrigger)//entonces es el dado
+        if (!dado.isTrigger)//entonces es el dado
         {
-            ReleaseDado(obj);
+            if (dado.GetComponent<DadoScript>().isSelected == true)
+            {
+                rollMGR.selectedDados--;
+            }
+            ReleaseDado(dado);
         }
     }
 

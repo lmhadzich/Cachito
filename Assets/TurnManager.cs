@@ -73,9 +73,12 @@ public class TurnManager : MonoBehaviour
         currentRolls = 0;
         rollMGR.UpdateRollState(RollState.PreRoll);
         rollMGR.confirmedDados = 0;
+        rollMGR.selectedDados = 0;
         rollMGR.rollScore = 0;
         rollMGR.addedScore = 0;
         rollMGR.highestValue = 0;
+        callao01 = 0;
+        callao02 = 0;
         //Release los dados para poder Load
 
         foreach (Transform dado in dadosSet)
@@ -97,6 +100,7 @@ public class TurnManager : MonoBehaviour
         turnScore = rollMGR.rollScore;
         gameMGR.playerList[currentTurnID].matchScore = turnScore;
         matchSCR.PopulateMs("update");
+        NextTurn();
     }
 
     private void Awake()

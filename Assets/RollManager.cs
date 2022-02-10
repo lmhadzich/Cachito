@@ -19,6 +19,7 @@ public class RollManager : MonoBehaviour
 
     public GameObject setDados;
     public int maxDados;
+    public int selectedDados;
     public int confirmedDados;
     public int sleepingDados;
     public float addedScore;
@@ -37,12 +38,24 @@ public class RollManager : MonoBehaviour
     public void NextRoll()
     {
         turnMGR.currentRolls++;
+        if (turnMGR.currentRolls == 4)
+        {
+             Debug.Log("siguiente turno");
+        }
+
         if (turnMGR.currentTurnID == matchMGR.currentLeaderID)//Si el que juega es el leader, modifica el maxRolls
         {
             turnMGR.maxRolls = turnMGR.currentRolls;
         }
+        
+        else
+        {
+            if(turnMGR.currentRolls > turnMGR.maxRolls)
+                Debug.Log("siguiente turno");
+        }
+                    
         rollMGR.UpdateRollState(RollState.Loaded);
-
+        
     }
 
     public void NewRoll()
@@ -83,18 +96,27 @@ public class RollManager : MonoBehaviour
 
     public void UpdateScore(float dadoScore)
     {
+        if (turnMGR.callao01>=turnMGR.callao02)
+            {
+            highestValue = turnMGR.callao01;
+            }
+        else 
+            {
+                highestValue = turnMGR.callao02;
+            }
+          
         MatchType currentMatchType = matchMGR.matchType;
         addedScore = addedScore + dadoScore; //suma los valores de los dados
         switch (currentMatchType)
         {
             case MatchType.Callao:
-                rollScore = confirmedDados + highestValue;
+                rollScore = selectedDados + highestValue;
                 break;
             case MatchType.OjosAzules:
                 rollScore = addedScore * -1;
                 break;
             case MatchType.Undefined:
-                rollScore = confirmedDados + addedScore;
+                rollScore = selectedDados + addedScore;
                 break;
         }
         gameMGR.playerList[turnMGR.currentTurnID].matchScore = rollScore;
@@ -105,7 +127,7 @@ public class RollManager : MonoBehaviour
 
     private void Update()
     {
-
+        UpdateScore(0);
     }
 }
 public enum RollState

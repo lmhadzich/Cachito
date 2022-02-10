@@ -222,13 +222,7 @@ public class DadoScript : MonoBehaviour
             GetComponent<MeshRenderer>().material = baseMaterial;
         }
         
-        if (isSelected == true)
-            {
-             if (DadoScore>=rollMGR.highestValue)
-                {
-                    rollMGR.highestValue = DadoScore;
-                }
-            }    
+          
 }
 
     void UpdateSleepers()

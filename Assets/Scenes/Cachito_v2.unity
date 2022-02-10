@@ -3039,6 +3039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   matchMGR: {fileID: 918537994}
   turnMGR: {fileID: 1250790099}
+  rollMGR: {fileID: 1100162129}
   uiMGR: {fileID: 1405609134}
 --- !u!65 &980836065
 BoxCollider:
@@ -3060,7 +3061,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980836063}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3531,6 +3532,7 @@ MonoBehaviour:
   State: 0
   setDados: {fileID: 839692705}
   maxDados: 0
+  selectedDados: 0
   confirmedDados: 0
   sleepingDados: 0
   addedScore: 0
