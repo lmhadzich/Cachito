@@ -18,6 +18,7 @@ public class MatchManager : MonoBehaviour
     public static MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
     public MatchScore matchSCR; //Permite agarrarlo de cualquier parte del game.
     public TurnManager turnMGR; //Permite agarrarlo de cualquier parte del game.
+    public UIManager uiMGR; //Permite agarrarlo de cualquier parte del game.
     public RollManager rollMGR;
     public MatchState State; //Permite modificar el matchMGR.State
     public static event Action<MatchState> OnMatchStateChanged; //Crea la function para avisar a otros script que se cambio el matchMGR.State
@@ -93,7 +94,44 @@ public void UpdateMatchType(MatchType newType)
         turnMGR.StartTurn(currentLeaderID);
         matchSCR.PopulateMs("new");
     }
+
+    public void EndMatch()
+    {
+        Debug.Log("END MATCH");
+        CalculateWinner();
+        UpdateMatchState(MatchState.Ended);
+        NewMatch();
+
+    }
+
+    public void NewMatch()
+    {
+        Debug.Log("NEW MATCH");
+    }
+    public void NewLeader()
+    {
+        Debug.Log("NEW LEADER");
+    }
+    public void CalculateWinner()
+    {
+        string ganadorName = matchSCR.matchScoreEntryList[0].name;
+        int ganadorID = gameMGR.playerList.FindIndex(player => player.name == ganadorName);
+        gameMGR.playerList[ganadorID].gamePoints++;
+        matchMGR.currentLeaderID = ganadorID;
+        uiMGR.UpdateLeaderUI();
+        Debug.Log("El ganador es " + matchSCR.matchScoreEntryList[0].name);
+
+        NewWinner();
+        NewLeader();
+    }
+    public void NewWinner()
+    {
+        Debug.Log("NEW WINNER");
+    }
+
 }
+
+
 
 public enum MatchState
 {

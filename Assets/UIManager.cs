@@ -133,11 +133,15 @@ public class UIManager : MonoBehaviour
                 break;
             case MatchState.Playing:
                 //Mostrar nombre + ID del leader
-                
+                btnLoad.SetActive(true);
+                btnEndSelection.SetActive(true);
+
                 txtMatchState.text = "Match: " + state.ToString() + " " + MatchManager.matchMGR.matchType;
                 break;
             case MatchState.Ended:
-                //Ya se sentaron los players
+                btnLoad.SetActive(false);
+                btnRoll.SetActive(false);
+                btnEndSelection.SetActive(false);
                 break;
         }
     }
@@ -176,14 +180,24 @@ public class UIManager : MonoBehaviour
         switch (state)//Que pasa en cada MATCH state
         {
             case RollState.PreRoll:
+                Debug.Log("preroll");
+                btnLoad.SetActive(true);
                 break;
             case RollState.Loaded:
+                btnLoad.SetActive(false);
+                btnRoll.SetActive(true);
                 break;
             case RollState.Rolling:
+                btnRoll.SetActive(false);
                 break;
             case RollState.Thinking:
+                btnLoad.SetActive(true);
+                rollMGR.CheckIfLastRoll();
                 break;
             case RollState.Selected:
+                break;
+            case RollState.LastRoll:
+                btnLoad.SetActive(false);
                 break;
         }
     }

@@ -15,10 +15,11 @@ public class Player : IComparable<Player>
     public bool isLeader; //No se si esto viva aqui porque existe ya en el Match Manager
     public float matchScore; //Su score calculado actual
 
-    public Player(string newName, float score) //La clase Player con sus variables
+    public Player(string newName, float score, int fosforos) //La clase Player con sus variables
     {
         name = newName;
         matchScore = score;
+        gamePoints = fosforos;
     }
 
     //This method is required by the IComparable interface. 

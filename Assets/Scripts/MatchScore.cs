@@ -15,7 +15,7 @@ public class MatchScore : MonoBehaviour
     private Transform entryContainer;
     private Transform entryTemplate;
 
-    private List<MatchScoreEntry> matchScoreEntryList;
+    public List<MatchScoreEntry> matchScoreEntryList;
     private List<Transform> matchScoreEntryTransformList;
 
     public int maxPlayers;
@@ -31,6 +31,9 @@ public class MatchScore : MonoBehaviour
 
     public void PopulateMs(string action)
     {
+        maxPlayers = gameMGR.maxPlayers;
+        matchScoreEntryList = new List<MatchScoreEntry>();
+        matchScoreEntryTransformList = new List<Transform>();
         if (action == "update")
         {
             matchScoreEntryList.Clear();
@@ -48,7 +51,7 @@ public class MatchScore : MonoBehaviour
         matchScoreEntryList = new List<MatchScoreEntry>();
         
         for (int i = 0; i < maxPlayers; i++) {
-            matchScoreEntryList.Add(new MatchScoreEntry { name = gameMGR.playerList[i].name, score = gameMGR.playerList[i].matchScore });
+            matchScoreEntryList.Add(new MatchScoreEntry { name = gameMGR.playerList[i].name, score = gameMGR.playerList[i].matchScore, fosforos = gameMGR.playerList[i].gamePoints });
         };
 
         if (action == "update")
@@ -69,7 +72,7 @@ public class MatchScore : MonoBehaviour
         }
 
 
-        matchScoreEntryTransformList = new List<Transform>();
+
         foreach (MatchScoreEntry matchScoreEntry in matchScoreEntryList)
         {
             CreateMatchscoreEntryTransform(matchScoreEntry, matchScoreEntryTransformList);
@@ -88,7 +91,7 @@ public class MatchScore : MonoBehaviour
             entryTransform.gameObject.SetActive(true);
 
             entryTransform.Find("txtMsPos").GetComponent<TextMeshProUGUI>().text = (transformList.Count + 1).ToString();
-            entryTransform.Find("txtMsName").GetComponent<TextMeshProUGUI>().text = matchScoreEntry.name;
+            entryTransform.Find("txtMsName").GetComponent<TextMeshProUGUI>().text = matchScoreEntry.name + " (" + matchScoreEntry.fosforos + ")";
             entryTransform.Find("txtMsScore").GetComponent<TextMeshProUGUI>().text = matchScoreEntry.score.ToString();
 
             transformList.Add(entryTransform);
@@ -98,5 +101,6 @@ public class MatchScoreEntry
     {
         public string name;
         public float score;
+        public int fosforos;
     }
 }

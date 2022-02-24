@@ -35,13 +35,43 @@ public class RollManager : MonoBehaviour
         
     }
 
+    public void CheckIfLastRoll()
+        {
+        if (matchMGR.currentLeaderID == turnMGR.currentTurnID)
+        {
+            Debug.Log("LEader ROLL");
+            if (turnMGR.currentRolls == 3)//Ultimo Roll
+            {
+                Debug.Log("LEader LAST");
+                UpdateRollState(RollState.LastRoll);
+            }
+        }
+
+        if (matchMGR.currentLeaderID != turnMGR.currentTurnID)
+        {
+            if (turnMGR.currentRolls == turnMGR.maxRolls)//Ultimo Roll
+            {
+                Debug.Log("Not Leader Max Roll LAST");
+                UpdateRollState(RollState.LastRoll);
+            }
+        }
+
+
+
+    }
     public void NextRoll()
     {
         turnMGR.currentRolls++;
+
         if (turnMGR.currentRolls == 4)
         {
-             Debug.Log("siguiente turno");
+
+            turnMGR.NextTurn();
+            //Debug.Log("siguiente turno");
         }
+
+        //CheckIfLastRoll();
+
 
         if (turnMGR.currentTurnID == matchMGR.currentLeaderID)//Si el que juega es el leader, modifica el maxRolls
         {
@@ -51,7 +81,8 @@ public class RollManager : MonoBehaviour
         else
         {
             if(turnMGR.currentRolls > turnMGR.maxRolls)
-                Debug.Log("siguiente turno");
+                turnMGR.NextTurn();
+            //Debug.Log("siguiente turno");
         }
                     
         rollMGR.UpdateRollState(RollState.Loaded);
@@ -72,21 +103,28 @@ public class RollManager : MonoBehaviour
         switch (newState) // Dependiendo del state, hacer algo
         {
             case RollState.PreRoll:
+                Debug.Log("Roll State changed to: " + newState.ToString());
                 break;
             case RollState.Loaded:
+                Debug.Log("Roll State changed to: " + newState.ToString());
                 break;
             case RollState.Rolling:
+                Debug.Log("Roll State changed to: " + newState.ToString());
                 break;
             case RollState.Thinking:
-                //Dados add drag
+                Debug.Log("Roll State changed to: " + newState.ToString());
                 break;
             case RollState.Selected:
+                Debug.Log("Roll State changed to: " + newState.ToString());
                 //Dados marcar como selected los del trigger
+                break;
+            case RollState.LastRoll:
+                Debug.Log("Roll State changed to: " + newState.ToString());
                 break;
 
         }
         OnRollStateChanged?.Invoke(newState); //Si hay alguien listening a esto, ejecutar la funcion.
-        Debug.Log("Roll State changed to: " + newState.ToString());
+        
     } //Funcion global para actualizar el MATCH state
 
     private void Awake()
@@ -120,14 +158,18 @@ public class RollManager : MonoBehaviour
                 break;
         }
         gameMGR.playerList[turnMGR.currentTurnID].matchScore = rollScore;
-        Debug.Log(gameMGR.playerList[turnMGR.currentTurnID].matchScore);
+        //Debug.Log(gameMGR.playerList[turnMGR.currentTurnID].matchScore);
         matchSCR.PopulateMs("update");
         
     }
 
     private void Update()
     {
-        UpdateScore(0);
+        if (gameMGR.playerList.Count > 0)
+        {
+            UpdateScore(0);
+        }
+
     }
 }
 public enum RollState
@@ -136,5 +178,6 @@ public enum RollState
     Loaded,
     Rolling,
     Thinking,
-    Selected
+    Selected,
+    LastRoll
 }

@@ -99,8 +99,16 @@ public class TurnManager : MonoBehaviour
         rollMGR.UpdateRollState(RollState.PreRoll);
         turnScore = rollMGR.rollScore;
         gameMGR.playerList[currentTurnID].matchScore = turnScore;
-        matchSCR.PopulateMs("update");
-        NextTurn();
+
+        if (currentTurnNumber == gameMGR.maxPlayers)
+        {
+            matchMGR.EndMatch();
+        }
+        else
+        {
+            NextTurn();
+        }
+
     }
 
     private void Awake()

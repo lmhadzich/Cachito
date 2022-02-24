@@ -71,9 +71,9 @@ public class GameManager : MonoBehaviour
         GameManager.gameMGR.UpdateGameState(GameState.PlayerSeating);
         Debug.Log("Add Players Interface");
 
-        playerList.Add(new Player("JapiChop", 0));
-        playerList.Add(new Player("Pepino", 0));
-        playerList.Add(new Player("Ruks", 0));
+        playerList.Add(new Player("JapiChop", 0, 0));
+        playerList.Add(new Player("Pepino", 0, 0));
+        playerList.Add(new Player("Ruks", 0, 0));
 
         //Actualizamos el playerNumber
         maxPlayers = playerList.Count;

@@ -183,7 +183,7 @@ public class DadoScript : MonoBehaviour
 
                 UpdateSleepers(); //ejecutar función CheckNumber
 
-                if (rollMGR.State == RollState.Thinking && isConfirmed != true) //Si estan quietos & en THINKING state
+                if (rollMGR.State == RollState.Thinking && isConfirmed != true || rollMGR.State == RollState.LastRoll && isConfirmed != true) //Si estan quietos & en THINKING state
                 {
                     gameObject.tag = "drag"; // Los hace arrastrables
                 }
@@ -195,7 +195,7 @@ public class DadoScript : MonoBehaviour
             }
             else
             {
-                if (rollMGR.State == RollState.Thinking)
+                if (rollMGR.State == RollState.Thinking || rollMGR.State == RollState.LastRoll)
                 {
                     enMovimiento = false;
                 }

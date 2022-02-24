@@ -2885,6 +2885,7 @@ MonoBehaviour:
   gameMGR: {fileID: 1153415355}
   matchSCR: {fileID: 1311633284}
   turnMGR: {fileID: 1250790099}
+  uiMGR: {fileID: 1405609134}
   rollMGR: {fileID: 1100162129}
   State: 0
   Number1: 0.01
