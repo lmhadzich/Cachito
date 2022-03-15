@@ -99,54 +99,50 @@ public class DadoScript : MonoBehaviour
         else if (dadoNum == "SEIS")
         {
             DadoScore = matchMGR.Number6;
-            {
-
-            }
         }
         else if (dadoNum == "CINCO")
         {
             DadoScore = matchMGR.Number5;
-            {
-
-            }
         }
         else if (dadoNum == "UNO")
         {
             DadoScore = matchMGR.Number1;
-
         }
         else if (dadoNum == "DOS")
         {
             DadoScore = matchMGR.Number2;
-            {
-
-            }
         }
         else if (dadoNum == "TRES")
         {
             DadoScore = matchMGR.Number3;
-            {
-
-            }
+        }
+        else if (dadoNum == "TBD")
+        {
+            DadoScore = 0;
         }
 
         dadoValueText.text = DadoScore.ToString();
 
     }
-
+    public void LiftDado()
+    {
+        Vector3 parentTransform = DadosSet.transform.position; // Captura posición de Dadoset y la guarda en una variable
+                transform.rotation = Random.rotation; // Rota el dado randoml
+                float startPos = -5 + (dadoID * 1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
+                transform.position = new Vector3(startPos, cachitoLoadHeight, 0); // Setea la posición inicial del dado en X(por dado) y Y(compartida)
+                DadoRB.isKinematic = true;
+        Debug.Log("Levantado!");
+    }
     void LoadCachito() //Función al hacer click Botón de LoadCachito
     {
-        
+        gameObject.SetActive(true);
+
         if (isConfirmed != true) {    
             if (isSelected == false)
             {
                 rollMGR.UpdateRollState(RollState.Loaded); //Updateamos el TurnSystem
                 dadoValueText.text = "?"; //Cambia el texto
-                Vector3 parentTransform = DadosSet.transform.position; // Captura posición de Dadoset y la guarda en una variable
-                transform.rotation = Random.rotation; // Rota el dado randoml
-                float startPos = -5 + (dadoID * 1.5f); // Define qué tan separados van a estar los dados el uno del otro solo en X
-                transform.position = new Vector3(startPos, cachitoLoadHeight, 0); // Setea la posición inicial del dado en X(por dado) y Y(compartida)
-                DadoRB.isKinematic = true;
+                LiftDado();
             }
             else
             {

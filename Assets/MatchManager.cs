@@ -13,7 +13,7 @@ public class MatchManager : MonoBehaviour
 
     public MatchType matchType; //Activa al lista de juegos que esta abajo
     public int maxRolls; //Guarda el maxRolls determinado por el leader
-
+    public GameObject setdados;
     public GameManager gameMGR; //Para referenciar en el inspector
     public static MatchManager matchMGR; //Permite agarrarlo de cualquier parte del game.
     public MatchScore matchSCR; //Permite agarrarlo de cualquier parte del game.
@@ -86,13 +86,44 @@ public void UpdateMatchType(MatchType newType)
     }
     public void StartMatch() //Iniciar un match
     {
+        foreach (Transform dado in setdados.transform)
+        {
+            dado.GetComponent<DadoScript>().isConfirmed = false;
+            dado.GetComponent<DadoScript>().isSelected = false;
+            dado.GetComponent<DadoScript>().DadoValidVariable = null;
+            dado.GetComponent<DadoScript>().LiftDado();
+            dado.GetComponent<DadoScript>().dadoNum="TBD";
+            dado.GetComponent<DadoScript>().UpdateDadoScore();
+            dado.gameObject.SetActive(false);
+        } 
+
         UpdateMatchType(MatchType.Callao);
         gameMGR.UpdateGameState(GameState.Playing); //Avisamos que ya estamos playing un Match
         UpdateMatchState(MatchState.Playing); //Avisamos que ya estamos playing un Match
         Debug.Log("Match Started!");
 
+        ResetPlayerScores();
         turnMGR.StartTurn(currentLeaderID);
+           
+               
+               
+    }
+    public void ResetPlayerScores()
+    {
+        foreach(Player player in gameMGR.playerList)
+        {
+        player.matchScore = 0;
+            
+        }
+        turnMGR.callao01 = 0;
+        turnMGR.callao02 = 0;
+        turnMGR.callao01Count = 0;
+        turnMGR.callao02Count = 0;
+        rollMGR.addedScore = 0;
+        rollMGR.selectedDados = 0;
+        rollMGR.UpdateScore(0);
         matchSCR.PopulateMs("new");
+        
     }
 
     public void EndMatch()
@@ -100,34 +131,26 @@ public void UpdateMatchType(MatchType newType)
         Debug.Log("END MATCH");
         CalculateWinner();
         UpdateMatchState(MatchState.Ended);
-        NewMatch();
+        StartMatch();
 
     }
 
-    public void NewMatch()
-    {
-        Debug.Log("NEW MATCH");
-    }
-    public void NewLeader()
+    
+    public void NewLeader(int playerID)
     {
         Debug.Log("NEW LEADER");
+        matchMGR.currentLeaderID = playerID;
+        uiMGR.UpdateLeaderUI();
     }
     public void CalculateWinner()
     {
         string ganadorName = matchSCR.matchScoreEntryList[0].name;
         int ganadorID = gameMGR.playerList.FindIndex(player => player.name == ganadorName);
         gameMGR.playerList[ganadorID].gamePoints++;
-        matchMGR.currentLeaderID = ganadorID;
-        uiMGR.UpdateLeaderUI();
-        Debug.Log("El ganador es " + matchSCR.matchScoreEntryList[0].name);
+               Debug.Log("El ganador es " + matchSCR.matchScoreEntryList[0].name);
+        NewLeader(ganadorID);
+    }
 
-        NewWinner();
-        NewLeader();
-    }
-    public void NewWinner()
-    {
-        Debug.Log("NEW WINNER");
-    }
 
 }
 

@@ -15,8 +15,10 @@ public class MatchScore : MonoBehaviour
     private Transform entryContainer;
     private Transform entryTemplate;
 
+    [SerializeField]
     public List<MatchScoreEntry> matchScoreEntryList;
-    private List<Transform> matchScoreEntryTransformList;
+    [SerializeField]
+    public List<Transform> matchScoreEntryTransformList;
 
     public int maxPlayers;
     // Start is called before the first frame update
@@ -62,9 +64,15 @@ public class MatchScore : MonoBehaviour
                 {
                     if (matchScoreEntryList[j].score > matchScoreEntryList[i].score)
                     {
+                        Debug.Log(matchScoreEntryList[j].score +" > "+ matchScoreEntryList[i].score);
                         MatchScoreEntry tmp = matchScoreEntryList[i];
                         matchScoreEntryList[i] = matchScoreEntryList[j];
                         matchScoreEntryList[j] = tmp;
+                        
+                    }
+                    if (matchScoreEntryList[j].score == matchScoreEntryList[i].score)
+                    {
+                        Debug.Log(matchScoreEntryList[j].score +" = "+ matchScoreEntryList[i].score);
                     }
                 }
             }

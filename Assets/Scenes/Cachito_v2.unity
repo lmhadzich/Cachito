@@ -2882,6 +2882,7 @@ MonoBehaviour:
   nextLeaderID: 0
   matchType: 0
   maxRolls: 0
+  setdados: {fileID: 839692705}
   gameMGR: {fileID: 1153415355}
   matchSCR: {fileID: 1311633284}
   turnMGR: {fileID: 1250790099}
@@ -4364,6 +4365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMGR: {fileID: 1153415355}
   matchMGR: {fileID: 918537994}
+  matchScoreEntryTransformList: []
   maxPlayers: 0
 --- !u!1 &1344904004
 GameObject:
